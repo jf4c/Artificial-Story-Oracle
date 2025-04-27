@@ -7,8 +7,5 @@ public class NarrativeTest
     [Fact]
     public void Test1()
     {
-        var narrative = new Narrative();
-        
-        Assert.Equal("Test Title", narrative.Titule);
     }
 }

@@ -28,13 +28,4 @@ public sealed record Tracker : ValueObject
     public DateTime UpdatedAtUtc { get; }
     
     #endregion
-    
-    #region methods
-
-    public void Update()
-    {
-        
-    }
-
-    #endregion
 }

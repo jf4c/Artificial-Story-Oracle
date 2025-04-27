@@ -1,9 +1,12 @@
-﻿namespace ASO.Domain.Entities;
+﻿using ASO.Domain.ValueObjects;
 
-public abstract class Entity(Guid id) : IEquatable<Guid>
+namespace ASO.Domain.Entities;
+
+public abstract class Entity(Guid id, Tracker tracker) : IEquatable<Guid>
 {
     #region Properties
     public Guid Id { get; } = id;
+    public Tracker Tracker { get; } = tracker;
     
     #endregion
 
