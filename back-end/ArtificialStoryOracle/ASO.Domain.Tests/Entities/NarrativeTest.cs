@@ -1,6 +1,4 @@
-﻿using ASO.Domain.Entities;
-
-namespace ASO.Domain.Tests.Entities;
+﻿namespace ASO.Domain.Tests.Entities;
 
 public class NarrativeTest
 {

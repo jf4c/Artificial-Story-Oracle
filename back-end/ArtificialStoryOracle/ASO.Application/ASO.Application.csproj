@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ASO.Domain\ASO.Domain.csproj" />
+    <ProjectReference Include="..\ASO.Infra\ASO.Infra.csproj" />
+  </ItemGroup>
+
 </Project>

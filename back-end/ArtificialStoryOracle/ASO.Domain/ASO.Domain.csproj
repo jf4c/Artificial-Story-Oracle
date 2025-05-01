@@ -5,7 +5,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Repositories\" />
+    <Folder Include="Game\Dtos\" />
+    <Folder Include="Game\Exceptions\" />
+    <Folder Include="Game\Repositories\Abstractions\" />
+    <Folder Include="Identity\Exceptions\" />
+    <Folder Include="Identity\ValueObjects\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR.Contracts" />
   </ItemGroup>
 
 </Project>
