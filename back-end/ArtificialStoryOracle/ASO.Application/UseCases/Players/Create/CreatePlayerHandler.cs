@@ -14,7 +14,7 @@ public sealed class CreatePlayerHandler(IPlayerUserRepository playerUserReposito
     {
         var request = command.ToPlayerUserDto();
         
-        var palyer = PlayerUser.Create(request); 
+        var palyer = PlayerUser.Create(request);  //TODO: criar evento de dominio
         
         _playerUserRepository.Create(palyer); 
 

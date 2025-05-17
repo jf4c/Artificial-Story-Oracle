@@ -11,4 +11,8 @@
     <ProjectReference Include="..\ASO.Infra\ASO.Infra.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="UseCases\Games\GetAllGamesByPlayer\" />
+  </ItemGroup>
+
 </Project>

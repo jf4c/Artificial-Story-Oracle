@@ -7,7 +7,7 @@ namespace ASO.Domain.Identity.Entities;
 
 public sealed class PlayerUser : Entity, IAggragateRoot
 {
-    private PlayerUser(PlayerRequest request) : base(Guid.NewGuid())
+    private PlayerUser(PlayerRequest request)
     {
         Name = Name.Create(request.Name, "Default");
         Email = Email.Create(request.Email);

@@ -4,7 +4,7 @@ using ASO.Domain.ValueObjects;
 
 namespace ASO.Domain.Shared.Entities;
 
-public abstract class Entity(Guid id) : IEquatable<Guid>
+public abstract class Entity : IEquatable<Guid>
 {
     #region private fields
     
@@ -13,7 +13,7 @@ public abstract class Entity(Guid id) : IEquatable<Guid>
     #endregion
     
     #region Properties
-    public Guid Id { get; } = id;
+    public Guid Id { get; } = Guid.NewGuid();
     public Tracker Tracker { get; } = Tracker.Create();
     
     #endregion

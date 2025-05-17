@@ -19,8 +19,4 @@
     <ProjectReference Include="..\ASO.Infra\ASO.Infra.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Inputs\Mappers\" />
-  </ItemGroup>
-
 </Project>

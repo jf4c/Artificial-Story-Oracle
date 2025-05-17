@@ -39,4 +39,8 @@ public class PlayerController(
 
         return Ok(player);
     }
+    
+    //TODO: criar banco e testar os endpoints a cima 
+    
+    
 }

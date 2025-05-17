@@ -13,7 +13,7 @@ public static class PlayerUserMapper
     {
         return new CreatePlayerResponse
         {
-            //resposta
+            //TODO: Criar resposta
         };
     }
     
@@ -32,7 +32,7 @@ public static class PlayerUserMapper
     {
         return new GetPlayerByUserIdResponse
         {
-            //resposta
+            //TODO: Criar resposta
         };
     }
 }

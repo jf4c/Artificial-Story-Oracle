@@ -11,7 +11,7 @@ public class Player : Entity, IAggragateRoot
 {
     #region Constructors
 
-    private Player(string firstName, string lastName, string address, string nickName) : base(Guid.NewGuid())
+    private Player(string firstName, string lastName, string address, string nickName)
     {
         Name = Name.Create(firstName, lastName);
         Email = Email.Create(address);

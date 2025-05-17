@@ -4,5 +4,5 @@ namespace ASO.Application.UseCases.Players.Create;
 
 public sealed record CreatePlayerResponse : IResponse
 {
-    
+    //TODO: Criar resposta
 }
