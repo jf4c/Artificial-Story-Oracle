@@ -7,29 +7,31 @@ namespace ASO.Domain.Game.Entities;
 
 public class Character : Entity
 {
-    private Character(Name name, Class @class, List<Expertise> expertises)
-    {
-        Name = name;
-        Class = @class;
-        Expertises = expertises;
-        Ancestry = Ancestry.Create("Default", "Default");
+    #region Constructors
+    
+    private Character() {
+        Name = null!;
+        Ancestry = null!;
+        Classes = new();
+        Expertises = new();
+        Level = null;
     }
     
-    public static Character Create(Name name, Class @class, List<Expertise> expertises)
-        => new(name, @class, expertises);
+    private Character(Name name, Ancestry ancestry)
+    {
+        Name = name;
+        Ancestry = ancestry;
+    }
+    
+    #endregion
+    
+    public static Character Create(Name name, Ancestry ancestry)
+        => new(name, ancestry);
     
     public Name Name { get; }
-    public TypeCharacter TypeCharacter { get; }
+    public TypeCharacter TypeCharacter { get; } = TypeCharacter.Player;
     public Ancestry Ancestry { get; } 
-    public Class Class { get; } 
-    public List<Expertise> Expertises { get; set; }
-    
-    public int Level { get; set; } = 1;
-    
-    /*
-     * id | name | TypeCharacter |  Backstory | Ancestry | Class |
-     *  1 |  John | Player       |   ...      | elf      | mage |
-     *  2 |  Mary | Npc          |   ...      | human    | warrior |
-     *  3 |  Bob  | Npc          |   ...      | orc      | rogue |
-     */
+    public List<Class>? Classes { get; } 
+    public List<Expertise>? Expertises { get; }
+    public int? Level { get; }
 } 

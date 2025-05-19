@@ -5,6 +5,13 @@ namespace ASO.Domain.Game.Entities;
 
 public class Expertise : Entity
 {
+    #region Constructors
+    
+    private Expertise()
+    {
+        Name = null!; 
+    }
+    
     private Expertise(string name, AttributeBase keyAttributes, bool trained = false, bool armorPenalty = false)
     {
         Name = name;
@@ -12,6 +19,8 @@ public class Expertise : Entity
         Trained = trained;
         ArmorPenalty = armorPenalty;
     }
+    
+    #endregion
     
     public static Expertise Create(string name, AttributeBase keyAttributes, bool trained = false, bool armorPenalty = false)
     {
@@ -22,5 +31,6 @@ public class Expertise : Entity
     public AttributeBase KeyAttributes { get; }
     public bool Trained { get; }
     public bool ArmorPenalty { get; }
+    public List<Character>? Characters { get; set; }
 
 }

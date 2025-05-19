@@ -2,9 +2,14 @@
 
 namespace ASO.Domain.Game.ValueObjects;
 
-public record AttributeModifiers: ValueObject
+public record AttributeModifiers : ValueObject
 {
-    private AttributeModifiers(int strength, int dexterity, int constitution, int intelligence, int wisdom, int charisma)
+    private AttributeModifiers()
+    {
+    }
+
+    private AttributeModifiers(int strength, int dexterity, int constitution, int intelligence,
+        int wisdom, int charisma)
     {
         ModStrength = strength;
         ModDexterity = dexterity;
@@ -13,8 +18,9 @@ public record AttributeModifiers: ValueObject
         ModWisdom = wisdom;
         ModCharisma = charisma;
     }
-    
-    public static AttributeModifiers Create(int strength, int dexterity, int constitution, int intelligence, int wisdom, int charisma) =>
+
+    public static AttributeModifiers Create(int strength, int dexterity, int constitution,
+        int intelligence, int wisdom, int charisma) =>
         new(strength, dexterity, constitution, intelligence, wisdom, charisma);
 
     public int ModStrength { get; }

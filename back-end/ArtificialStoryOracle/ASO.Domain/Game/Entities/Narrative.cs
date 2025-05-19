@@ -7,10 +7,14 @@ namespace ASO.Domain.Game.Entities;
 
 public class Narrative : Entity, IAggragateRoot
 {
-    public Narrative()
+    #region Constructors
+    
+    private Narrative()
     {
         
     }
+    
+    #endregion
     
     public string Titule { get; } = string.Empty;
     public string Description { get; } = string.Empty;

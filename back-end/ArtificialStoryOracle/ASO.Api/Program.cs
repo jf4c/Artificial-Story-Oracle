@@ -1,4 +1,7 @@
+using ASO.Infra.Database;
+using ASO.Infra.Database.Seeds;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
 
@@ -34,6 +37,13 @@ builder.Services.AddAuthentication("Bearer")
         };
 
     });
+
+var cnnStr = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContext<AppDbContext>(x =>
+{
+    x.UseNpgsql(cnnStr);
+});
+
 
 
 builder.Services.AddSwaggerGen(c =>
@@ -76,6 +86,14 @@ IdentityModelEventSource.ShowPII = true;
 
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    context.Database.Migrate();
+    AncestrySeed.Seed(context); 
+    ExpertiseSeed.Seed(context); 
+}
 
 if (app.Environment.IsDevelopment())
 {

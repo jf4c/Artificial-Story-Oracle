@@ -10,6 +10,14 @@ namespace ASO.Domain.Game.Entities;
 public class Player : Entity, IAggragateRoot
 {
     #region Constructors
+    
+    private Player()
+    {
+        Name = null!;
+        Email = null!;
+        NickName = null!;
+        TypePlayer = TypePlayer.Player;
+    }
 
     private Player(string firstName, string lastName, string address, string nickName)
     {
