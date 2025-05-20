@@ -6,3 +6,9 @@ public interface IQueryHandler<in TRequest, TResponse>
 {
     Task<TResponse> Handle(TRequest request);
 }
+
+public interface IQueryHandler<TResponse>
+    where TResponse : IResponse
+{
+    Task<TResponse> Handle();
+}

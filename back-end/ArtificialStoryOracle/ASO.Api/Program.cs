@@ -1,5 +1,9 @@
+using ASO.Application.Abstractions.UseCase.Ancestry;
+using ASO.Application.UseCases.Ancestry.GetAllAncestry;
+using ASO.Domain.Game.QueriesServices;
 using ASO.Infra.Database;
 using ASO.Infra.Database.Seeds;
+using ASO.Infra.QueriesServices;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Logging;
@@ -23,17 +27,8 @@ builder.Services.AddAuthentication("Bearer")
         };
         options.Events = new JwtBearerEvents
         {
-            OnAuthenticationFailed = context =>
-            {
-                Console.WriteLine($"Authentication failed: {context.Exception.Message}");
-                Console.WriteLine($"Token: {context.Request.Headers["Authorization"]}");
-                return Task.CompletedTask;
-            },
-            OnMessageReceived = context =>
-            {
-                Console.WriteLine($"Token recebido: {context.Token}");
-                return Task.CompletedTask;
-            }
+            OnAuthenticationFailed = context => Task.CompletedTask,
+            OnMessageReceived = context => Task.CompletedTask
         };
 
     });
@@ -75,6 +70,10 @@ builder.Services.AddSwaggerGen(c =>
         }
     });
 });
+
+builder.Services.AddScoped<IGetAllAncestryHandler, GetAllAncestryHandler>();
+builder.Services.AddScoped<IAncestryQueryService, AncestryQueryService>();
+
 
 builder.Services.AddEndpointsApiExplorer();
 
