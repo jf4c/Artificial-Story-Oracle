@@ -1,6 +1,5 @@
 ﻿using System.Text.RegularExpressions;
 using ASO.Domain.Shared.ValueObjects.Exceptions.Email;
-using ASO.Domain.ValueObjects;
 
 namespace ASO.Domain.Shared.ValueObjects;
 

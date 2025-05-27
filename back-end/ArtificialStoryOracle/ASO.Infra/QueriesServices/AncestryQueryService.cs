@@ -9,7 +9,7 @@ public class AncestryQueryService(AppDbContext context) : IAncestryQueryService
 {
     private readonly AppDbContext _context = context;
     
-    public async Task<IEnumerable<Ancestry>>  GetAllAncestries()
+    public async Task<IEnumerable<Ancestry>>  GetAll()
     {
         var ancestries = await _context.Ancestries.ToListAsync();
         
@@ -17,5 +17,15 @@ public class AncestryQueryService(AppDbContext context) : IAncestryQueryService
             throw new Exception("No ancestries found");
         
         return ancestries;
+    }
+
+    public async Task<Ancestry> GetById(Guid id)
+    {
+        var ancestry = await _context.Ancestries.FirstOrDefaultAsync(x => x.Id == id);
+        
+        if (ancestry == null)
+            throw new Exception($"Ancestry with id {id} not found");
+        
+        return ancestry;
     }
 }

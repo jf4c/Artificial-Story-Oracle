@@ -1,6 +1,5 @@
 ﻿using ASO.Domain.Shared.Events.Abstractions;
 using ASO.Domain.Shared.ValueObjects;
-using ASO.Domain.ValueObjects;
 
 namespace ASO.Domain.Shared.Entities;
 

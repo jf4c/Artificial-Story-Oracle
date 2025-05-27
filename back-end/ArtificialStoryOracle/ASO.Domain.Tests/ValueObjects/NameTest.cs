@@ -1,6 +1,5 @@
 ﻿using ASO.Domain.Shared.ValueObjects;
 using ASO.Domain.Shared.ValueObjects.Exceptions.Name;
-using ASO.Domain.ValueObjects;
 
 namespace ASO.Domain.Tests.ValueObjects;
 

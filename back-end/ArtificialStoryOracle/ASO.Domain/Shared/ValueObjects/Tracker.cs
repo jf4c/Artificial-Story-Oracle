@@ -1,6 +1,4 @@
-﻿using ASO.Domain.ValueObjects;
-
-namespace ASO.Domain.Shared.ValueObjects;
+﻿namespace ASO.Domain.Shared.ValueObjects;
 
 public sealed record Tracker : ValueObject
 {

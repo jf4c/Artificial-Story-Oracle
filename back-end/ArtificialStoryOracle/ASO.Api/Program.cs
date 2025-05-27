@@ -1,9 +1,13 @@
 using ASO.Application.Abstractions.UseCase.Ancestry;
+using ASO.Application.Abstractions.UseCase.Characters;
 using ASO.Application.UseCases.Ancestry.GetAllAncestry;
+using ASO.Application.UseCases.Characters.Create;
 using ASO.Domain.Game.QueriesServices;
+using ASO.Domain.Game.Repositories.Abstractions;
 using ASO.Infra.Database;
 using ASO.Infra.Database.Seeds;
 using ASO.Infra.QueriesServices;
+using ASO.Infra.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Logging;
@@ -73,7 +77,10 @@ builder.Services.AddSwaggerGen(c =>
 
 builder.Services.AddScoped<IGetAllAncestryHandler, GetAllAncestryHandler>();
 builder.Services.AddScoped<IAncestryQueryService, AncestryQueryService>();
-
+builder.Services.AddScoped<IClassQueryService, ClassQueryService>();
+builder.Services.AddScoped<IExpertiseQueryService, ExpertiseQueryService>();
+builder.Services.AddScoped<ICreateCharacterHandler, CreateCharacterHandler>();
+builder.Services.AddScoped<ICharacterRepository, CharacterRepository>();
 
 builder.Services.AddEndpointsApiExplorer();
 
@@ -92,6 +99,7 @@ using (var scope = app.Services.CreateScope())
     context.Database.Migrate();
     AncestrySeed.Seed(context); 
     ExpertiseSeed.Seed(context); 
+    ClassSeed.Seed(context);
 }
 
 if (app.Environment.IsDevelopment())

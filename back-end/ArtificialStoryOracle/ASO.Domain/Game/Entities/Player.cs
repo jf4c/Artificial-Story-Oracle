@@ -2,7 +2,6 @@
 using ASO.Domain.Shared.Aggregates.Abstractions;
 using ASO.Domain.Shared.Entities;
 using ASO.Domain.Shared.ValueObjects;
-using ASO.Domain.ValueObjects;
 using Email = ASO.Domain.Shared.ValueObjects.Email;
 
 namespace ASO.Domain.Game.Entities;

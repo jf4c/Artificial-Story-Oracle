@@ -60,7 +60,7 @@ namespace ASO.Infra.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
-                    b.Property<int?>("Level")
+                    b.Property<int>("Level")
                         .HasColumnType("integer")
                         .HasColumnName("level");
 
@@ -237,6 +237,33 @@ namespace ASO.Infra.Migrations
                     b.Navigation("Ancestry");
 
                     b.Navigation("Name")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ASO.Domain.Game.Entities.Class", b =>
+                {
+                    b.OwnsOne("ASO.Domain.Game.ValueObjects.Statistics", "Statistics", b1 =>
+                        {
+                            b1.Property<Guid>("ClassId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<int>("InitHealthPoints")
+                                .HasColumnType("integer")
+                                .HasColumnName("init_health_points");
+
+                            b1.Property<int>("InitManaPoints")
+                                .HasColumnType("integer")
+                                .HasColumnName("init_mana_points");
+
+                            b1.HasKey("ClassId");
+
+                            b1.ToTable("classes");
+
+                            b1.WithOwner()
+                                .HasForeignKey("ClassId");
+                        });
+
+                    b.Navigation("Statistics")
                         .IsRequired();
                 });
 

@@ -18,5 +18,14 @@ public class ClassesMap : IEntityTypeConfiguration<Class>
         builder.Property(c => c.Description)
             .HasColumnName("description")
             .IsRequired();
+        builder.OwnsOne(c => c.Statistics, statistics =>
+        {
+            statistics.Property(s => s.InitHealthPoints)
+                .HasColumnName("init_health_points")
+                .IsRequired();
+            statistics.Property(s => s.InitManaPoints)
+                .HasColumnName("init_mana_points")
+                .IsRequired();
+        });
     }
 }

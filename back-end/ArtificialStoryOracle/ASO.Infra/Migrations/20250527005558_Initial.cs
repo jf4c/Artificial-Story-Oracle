@@ -38,7 +38,9 @@ namespace ASO.Infra.Migrations
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
                     name = table.Column<string>(type: "text", nullable: false),
-                    description = table.Column<string>(type: "text", nullable: false)
+                    description = table.Column<string>(type: "text", nullable: false),
+                    init_mana_points = table.Column<int>(type: "integer", nullable: false),
+                    init_health_points = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -69,7 +71,7 @@ namespace ASO.Infra.Migrations
                     last_name = table.Column<string>(type: "text", nullable: false),
                     type_character = table.Column<int>(type: "integer", nullable: false),
                     ancestry_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    level = table.Column<int>(type: "integer", nullable: true)
+                    level = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {

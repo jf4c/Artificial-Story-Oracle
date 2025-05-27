@@ -12,7 +12,7 @@ public sealed class GetAllAncestryHandler(IAncestryQueryService ancestryQuerySer
 
     public async Task<GetAllAncestryResponse> Handle()
     {
-        var ancestries = await _ancestryQueryService.GetAllAncestries();
+        var ancestries = await _ancestryQueryService.GetAll();
         
         return ancestries.ToGetAllAncestryResponse();
     }

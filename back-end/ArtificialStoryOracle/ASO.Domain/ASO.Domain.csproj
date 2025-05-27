@@ -5,9 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Game\Dtos\" />
     <Folder Include="Game\Exceptions\" />
-    <Folder Include="Game\Repositories\Abstractions\" />
     <Folder Include="Identity\Exceptions\" />
     <Folder Include="Identity\ValueObjects\" />
   </ItemGroup>
