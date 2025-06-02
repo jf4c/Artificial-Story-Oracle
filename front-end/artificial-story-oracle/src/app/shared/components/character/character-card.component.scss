@@ -1,0 +1,89 @@
+.character-card {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+
+  &__avatar {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+
+    img, .avatar-placeholder {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      border: 3px solid #4ecdc4;
+    }
+
+    .avatar-placeholder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+      font-size: 2rem;
+      font-weight: bold;
+      color: white;
+    }
+  }
+
+  &__info {
+    text-align: center;
+    margin-bottom: 1.5rem;
+
+    .character-name {
+      margin: 0 0 0.5rem 0;
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+
+    .character-class {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 0.9rem;
+    }
+  }
+
+  &__bars {
+    .stat-bar {
+      margin-bottom: 1rem;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      &__label {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 0.5rem;
+        font-size: 0.85rem;
+        color: rgba(255, 255, 255, 0.8);
+      }
+
+      &__track {
+        height: 8px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 4px;
+        overflow: hidden;
+      }
+
+      &__fill {
+        height: 100%;
+        border-radius: 4px;
+        transition: width 0.3s ease;
+
+        &--health {
+          background: linear-gradient(90deg, #ff6b6b, #ff8e8e);
+        }
+
+        &--mana {
+          background: linear-gradient(90deg, #4ecdc4, #45b7aa);
+        }
+
+        &--experience {
+          background: linear-gradient(90deg, #ffd93d, #ffb74d);
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,177 @@
+<div class="character-screen" [class.character-screen--empty]="!selectedCharacter && !showCharacterCreator">
+  
+  <!-- Character Creator Modal -->
+  <div *ngIf="showCharacterCreator" class="creator-modal">
+    <div class="creator-modal__backdrop" (click)="onCreatorCancelled()"></div>
+    <div class="creator-modal__content">
+      <app-character-creator
+        (characterCreated)="onCharacterCreated($event)"
+        (cancelled)="onCreatorCancelled()">
+      </app-character-creator>
+    </div>
+  </div>
+
+  <!-- Loading Overlay -->
+  <div *ngIf="isLoading" class="loading-overlay">
+    <div class="spinner"></div>
+    <p>Carregando personagens...</p>
+  </div>
+
+  <!-- Sidebar with character list -->
+  <aside class="character-screen__sidebar">
+    <div class="sidebar-header">
+      <h2>Meus Personagens</h2>
+      <button class="btn btn--primary" (click)="createNewCharacter()">
+        + Novo Personagem
+      </button>
+    </div>
+
+    <div class="character-list" *ngIf="characters.length > 0">
+      <div
+        *ngFor="let character of characters"
+        class="character-list-item"
+        [class.active]="selectedCharacter?.id === character.id"
+        (click)="selectCharacter(character)">
+        
+        <app-character-card
+          [character]="character"
+          [healthPercentage]="getCharacterHealthPercentage(character)"
+          [manaPercentage]="getCharacterManaPercentage(character)"
+          [experiencePercentage]="getCharacterExperiencePercentage(character)">
+        </app-character-card>
+
+        <div class="character-actions">
+          <button
+            class="action-btn action-btn--danger"
+            (click)="deleteCharacter(character); $event.stopPropagation()"
+            title="Excluir personagem">
+            🗑️
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="empty-character-list" *ngIf="characters.length === 0 && !isLoading">
+      <div class="empty-icon">👤</div>
+      <h3>Nenhum personagem</h3>
+      <p>Crie seu primeiro personagem para começar sua aventura!</p>
+      <button class="btn btn--primary" (click)="createNewCharacter()">
+        Criar Personagem
+      </button>
+    </div>
+
+    <!-- Character Navigation -->
+    <nav class="character-nav" *ngIf="selectedCharacter">
+      <button
+        class="character-nav__item"
+        [class.active]="activePanel === 'overview'"
+        (click)="setActivePanel('overview')">
+        📋 Visão Geral
+      </button>
+      <button
+        class="character-nav__item"
+        [class.active]="activePanel === 'stats'"
+        (click)="setActivePanel('stats')">
+        💪 Atributos
+      </button>
+      <button
+        class="character-nav__item"
+        [class.active]="activePanel === 'skills'"
+        (click)="setActivePanel('skills')">
+        🎯 Habilidades
+      </button>
+      <button
+        class="character-nav__item"
+        [class.active]="activePanel === 'inventory'"
+        (click)="setActivePanel('inventory')">
+        🎒 Inventário
+      </button>
+    </nav>
+  </aside>
+
+  <!-- Main content area -->
+  <main class="character-screen__main">
+    <!-- Character selected - show panels -->
+    <div *ngIf="selectedCharacter && !showCharacterCreator">
+      
+      <!-- Character Header -->
+      <div class="character-header">
+        <div class="character-title">
+          <h1>{{ selectedCharacter.name }}</h1>
+          <div class="character-subtitle">
+            <span class="character-class">{{ selectedCharacter.characterClass }}</span>
+            <span class="character-level">Nível {{ selectedCharacter.level }}</span>
+          </div>
+        </div>
+        
+        <div class="character-status">
+          <div class="status-bar status-bar--health">
+            <span class="status-label">Vida</span>
+            <div class="status-track">
+              <div 
+                class="status-fill"
+                [style.width.%]="getCharacterHealthPercentage(selectedCharacter)">
+              </div>
+            </div>
+            <span class="status-text">
+              {{ selectedCharacter.currentHealth }}/{{ selectedCharacter.maxHealth }}
+            </span>
+          </div>
+          
+          <div class="status-bar status-bar--mana">
+            <span class="status-label">Mana</span>
+            <div class="status-track">
+              <div 
+                class="status-fill"
+                [style.width.%]="getCharacterManaPercentage(selectedCharacter)">
+              </div>
+            </div>
+            <span class="status-text">
+              {{ selectedCharacter.currentMana }}/{{ selectedCharacter.maxMana }}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel Content -->
+      <div class="panel-content">
+        <!-- Overview Panel -->
+        <app-character-overview
+          *ngIf="activePanel === 'overview'"
+          [character]="selectedCharacter">
+        </app-character-overview>
+
+        <!-- Stats Panel -->
+        <app-stats-panel
+          *ngIf="activePanel === 'stats'"
+          [stats]="selectedCharacter.stats"
+          (statUpdate)="onStatUpdate($event)">
+        </app-stats-panel>
+
+        <!-- Skills Panel -->
+        <app-skills-panel
+          *ngIf="activePanel === 'skills'"
+          [skills]="selectedCharacter.skills"
+          (skillUpdate)="onSkillUpdate($event)">
+        </app-skills-panel>
+
+        <!-- Inventory Panel -->
+        <app-inventory-panel
+          *ngIf="activePanel === 'inventory'"
+          [inventory]="selectedCharacter.inventory"
+          (inventoryUpdate)="onInventoryUpdate($event)">
+        </app-inventory-panel>
+      </div>
+    </div>
+
+    <!-- No character selected -->
+    <div *ngIf="!selectedCharacter && !showCharacterCreator" class="empty-state">
+      <div class="empty-icon">🎭</div>
+      <h2>Selecione um Personagem</h2>
+      <p>Escolha um personagem da lista ao lado ou crie um novo para começar.</p>
+      <button class="btn btn--primary" (click)="createNewCharacter()">
+        Criar Novo Personagem
+      </button>
+    </div>
+  </main>
+</div>

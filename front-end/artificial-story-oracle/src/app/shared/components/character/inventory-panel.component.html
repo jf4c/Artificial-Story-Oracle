@@ -1,0 +1,129 @@
+<div class="inventory-panel">
+  <div class="inventory-panel__header">
+    <h2>Inventário</h2>
+    <div class="inventory-stats">
+      <div class="stat-item">
+        <span class="stat-label">Valor Total:</span>
+        <span class="stat-value">{{ totalValue }} moedas</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-label">Itens:</span>
+        <span class="stat-value">{{ totalWeight }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="inventory-controls">
+    <div class="filter-tabs">
+      <button
+        *ngFor="let type of itemTypes"
+        class="filter-tab"
+        [class.active]="selectedFilter === type.id"
+        (click)="onFilterChange(type.id)">
+        {{ type.icon }} {{ type.name }}
+      </button>
+    </div>
+
+    <div class="sort-controls">
+      <label>Ordenar por:</label>
+      <button
+        class="sort-btn"
+        [class.active]="sortBy === 'name'"
+        (click)="onSortChange('name')">
+        Nome
+        <span *ngIf="sortBy === 'name'" class="sort-arrow">
+          {{ sortDirection === 'asc' ? '↑' : '↓' }}
+        </span>
+      </button>
+      <button
+        class="sort-btn"
+        [class.active]="sortBy === 'type'"
+        (click)="onSortChange('type')">
+        Tipo
+        <span *ngIf="sortBy === 'type'" class="sort-arrow">
+          {{ sortDirection === 'asc' ? '↑' : '↓' }}
+        </span>
+      </button>
+      <button
+        class="sort-btn"
+        [class.active]="sortBy === 'rarity'"
+        (click)="onSortChange('rarity')">
+        Raridade
+        <span *ngIf="sortBy === 'rarity'" class="sort-arrow">
+          {{ sortDirection === 'asc' ? '↑' : '↓' }}
+        </span>
+      </button>
+      <button
+        class="sort-btn"
+        [class.active]="sortBy === 'value'"
+        (click)="onSortChange('value')">
+        Valor
+        <span *ngIf="sortBy === 'value'" class="sort-arrow">
+          {{ sortDirection === 'asc' ? '↑' : '↓' }}
+        </span>
+      </button>
+    </div>
+  </div>
+
+  <div class="inventory-grid" *ngIf="filteredAndSortedInventory.length > 0">
+    <div *ngFor="let item of filteredAndSortedInventory" class="inventory-item">
+      <div class="item-header">
+        <div class="item-icon">{{ getTypeIcon(item.type) }}</div>
+        <div class="item-info">
+          <h3 
+            class="item-name"
+            [style.color]="getRarityColor(item.rarity)">
+            {{ item.name }}
+            <span *ngIf="item.equipped" class="equipped-badge">Equipado</span>
+          </h3>
+          <div class="item-meta">
+            <span class="item-rarity" [style.color]="getRarityColor(item.rarity)">
+              {{ getRarityName(item.rarity) }}
+            </span>
+            <span class="item-quantity" *ngIf="item.quantity > 1">
+              x{{ item.quantity }}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <p class="item-description">{{ item.description }}</p>
+
+      <div class="item-footer">
+        <div class="item-value" *ngIf="item.value">
+          {{ item.value }} moedas
+        </div>
+        
+        <div class="item-actions">
+          <button
+            *ngIf="item.type === 'weapon' || item.type === 'armor'"
+            class="action-btn action-btn--equip"
+            [class.equipped]="item.equipped"
+            (click)="onEquipItem(item)">
+            {{ item.equipped ? 'Desequipar' : 'Equipar' }}
+          </button>
+          
+          <button
+            *ngIf="item.type === 'consumable'"
+            class="action-btn action-btn--use"
+            (click)="onUseItem(item)"
+            [disabled]="item.quantity <= 0">
+            Usar
+          </button>
+          
+          <button
+            class="action-btn action-btn--drop"
+            (click)="onDropItem(item)">
+            Descartar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="empty-inventory" *ngIf="filteredAndSortedInventory.length === 0">
+    <div class="empty-icon">📦</div>
+    <h3>Inventário vazio</h3>
+    <p>Nenhum item encontrado para o filtro selecionado.</p>
+  </div>
+</div>

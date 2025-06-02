@@ -1,0 +1,74 @@
+<div class="stats-panel">
+  <div class="stats-panel__header">
+    <h2>Atributos do Personagem</h2>
+    <div *ngIf="availablePoints > 0" class="available-points">
+      Pontos disponíveis: <span>{{ availablePoints }}</span>
+    </div>
+  </div>
+
+  <div class="stats-grid">
+    <div *ngFor="let stat of getStatEntries()" class="stat-item">
+      <div class="stat-item__header">
+        <h3 class="stat-name">{{ statNames[stat.key] }}</h3>
+        <div class="stat-controls">
+          <button
+            class="stat-btn stat-btn--decrease"
+            (click)="handleStatChange(stat.key, -1)"
+            [disabled]="stat.value <= 1">
+            -
+          </button>
+          <div class="stat-value-container">
+            <span 
+              class="stat-value"
+              [style.color]="getStatColor(stat.value)">
+              {{ stat.value }}
+            </span>
+            <span class="stat-modifier">
+              ({{ getStatModifier(stat.value) }})
+            </span>
+          </div>
+          <button
+            class="stat-btn stat-btn--increase"
+            (click)="handleStatChange(stat.key, 1)"
+            [disabled]="stat.value >= 20 || availablePoints <= 0">
+            +
+          </button>
+        </div>
+      </div>
+      
+      <div class="stat-bar">
+        <div 
+          class="stat-bar__fill"
+          [style.width.%]="getStatPercentage(stat.value)"
+          [style.background-color]="getStatColor(stat.value)">
+        </div>
+      </div>
+      
+      <p class="stat-description">
+        {{ statDescriptions[stat.key] }}
+      </p>
+    </div>
+  </div>
+
+  <div class="stats-summary">
+    <h3>Resumo dos Modificadores</h3>
+    <div class="modifiers-grid">
+      <div class="modifier-item">
+        <span>Bônus de Ataque (Força):</span>
+        <span>{{ getStatModifier(stats.strength) }}</span>
+      </div>
+      <div class="modifier-item">
+        <span>Classe de Armadura (Destreza):</span>
+        <span>10 {{ getStatModifier(stats.dexterity) }}</span>
+      </div>
+      <div class="modifier-item">
+        <span>Pontos de Vida (Constituição):</span>
+        <span>{{ getStatModifier(stats.constitution) }} por nível</span>
+      </div>
+      <div class="modifier-item">
+        <span>Pontos de Mana (Inteligência):</span>
+        <span>{{ getStatModifier(stats.intelligence) }} por nível</span>
+      </div>
+    </div>
+  </div>
+</div>

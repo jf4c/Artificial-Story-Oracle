@@ -1,0 +1,58 @@
+<div class="character-card">
+  <div class="character-card__avatar">
+    <img *ngIf="character.avatar" 
+         [src]="character.avatar" 
+         [alt]="character.name">
+    <div *ngIf="!character.avatar" class="avatar-placeholder">
+      {{ getAvatarInitial() }}
+    </div>
+  </div>
+  
+  <div class="character-card__info">
+    <h2 class="character-name">{{ character.name }}</h2>
+    <p class="character-class">
+      {{ character.class }} - Nível {{ character.level }}
+    </p>
+  </div>
+
+  <div class="character-card__bars">
+    <div class="stat-bar">
+      <div class="stat-bar__label">
+        <span>Vida</span>
+        <span>{{ character.health.current }}/{{ character.health.max }}</span>
+      </div>
+      <div class="stat-bar__track">
+        <div 
+          class="stat-bar__fill stat-bar__fill--health"
+          [style.width.%]="healthPercentage">
+        </div>
+      </div>
+    </div>
+
+    <div class="stat-bar">
+      <div class="stat-bar__label">
+        <span>Mana</span>
+        <span>{{ character.mana.current }}/{{ character.mana.max }}</span>
+      </div>
+      <div class="stat-bar__track">
+        <div 
+          class="stat-bar__fill stat-bar__fill--mana"
+          [style.width.%]="manaPercentage">
+        </div>
+      </div>
+    </div>
+
+    <div class="stat-bar">
+      <div class="stat-bar__label">
+        <span>Experiência</span>
+        <span>{{ experienceToNext }} XP para próximo nível</span>
+      </div>
+      <div class="stat-bar__track">
+        <div 
+          class="stat-bar__fill stat-bar__fill--experience"
+          [style.width.%]="experiencePercentage">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,268 @@
+.inventory-panel {
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+
+    h2 {
+      margin: 0;
+      color: #4ecdc4;
+      font-size: 1.5rem;
+    }
+
+    .inventory-stats {
+      display: flex;
+      gap: 1rem;
+
+      .stat-item {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+
+        .stat-label {
+          color: rgba(255, 255, 255, 0.7);
+          font-size: 0.9rem;
+          margin-right: 0.5rem;
+        }
+
+        .stat-value {
+          color: #ffd93d;
+          font-weight: 600;
+        }
+      }
+    }
+  }
+}
+
+.inventory-controls {
+  margin-bottom: 2rem;
+
+  .filter-tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+
+    .filter-tab {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: rgba(255, 255, 255, 0.7);
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 0.9rem;
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.05);
+        color: rgba(255, 255, 255, 0.9);
+      }
+
+      &.active {
+        background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+        border-color: transparent;
+        color: white;
+        font-weight: 500;
+      }
+    }
+  }
+
+  .sort-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+
+    label {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 0.9rem;
+      margin-right: 0.5rem;
+    }
+
+    .sort-btn {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: rgba(255, 255, 255, 0.7);
+      padding: 0.4rem 0.8rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.05);
+        color: rgba(255, 255, 255, 0.9);
+      }
+
+      &.active {
+        background: rgba(78, 205, 196, 0.2);
+        border-color: #4ecdc4;
+        color: #4ecdc4;
+      }
+
+      .sort-arrow {
+        font-size: 0.8rem;
+      }
+    }
+  }
+}
+
+.inventory-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+
+  .inventory-item {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.08);
+      transform: translateY(-2px);
+    }
+
+    .item-header {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+
+      .item-icon {
+        font-size: 2rem;
+        margin-right: 1rem;
+        flex-shrink: 0;
+      }
+
+      .item-info {
+        flex: 1;
+
+        .item-name {
+          margin: 0 0 0.5rem 0;
+          font-size: 1.1rem;
+          font-weight: 600;
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+
+          .equipped-badge {
+            background: #4ecdc4;
+            color: white;
+            font-size: 0.7rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-weight: 500;
+          }
+        }
+
+        .item-meta {
+          display: flex;
+          gap: 1rem;
+          font-size: 0.9rem;
+
+          .item-rarity {
+            font-weight: 500;
+          }
+
+          .item-quantity {
+            color: rgba(255, 255, 255, 0.7);
+          }
+        }
+      }
+    }
+
+    .item-description {
+      margin: 0 0 1rem 0;
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.7);
+      line-height: 1.4;
+    }
+
+    .item-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .item-value {
+        color: #ffd93d;
+        font-weight: 600;
+        font-size: 0.9rem;
+      }
+
+      .item-actions {
+        display: flex;
+        gap: 0.5rem;
+
+        .action-btn {
+          background: transparent;
+          border: 1px solid rgba(255, 255, 255, 0.3);
+          color: rgba(255, 255, 255, 0.8);
+          padding: 0.4rem 0.8rem;
+          border-radius: 6px;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          font-size: 0.8rem;
+
+          &:hover:not(:disabled) {
+            background: rgba(255, 255, 255, 0.1);
+          }
+
+          &:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+          }
+
+          &--equip {
+            &:hover:not(:disabled) {
+              border-color: #4ecdc4;
+              color: #4ecdc4;
+            }
+
+            &.equipped {
+              background: rgba(78, 205, 196, 0.2);
+              border-color: #4ecdc4;
+              color: #4ecdc4;
+            }
+          }
+
+          &--use:hover:not(:disabled) {
+            border-color: #ffd93d;
+            color: #ffd93d;
+          }
+
+          &--drop:hover:not(:disabled) {
+            border-color: #ff6b6b;
+            color: #ff6b6b;
+          }
+        }
+      }
+    }
+  }
+}
+
+.empty-inventory {
+  text-align: center;
+  padding: 3rem;
+  color: rgba(255, 255, 255, 0.6);
+
+  .empty-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+  }
+
+  h3 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.5rem;
+  }
+
+  p {
+    margin: 0;
+    font-size: 1rem;
+  }
+}
