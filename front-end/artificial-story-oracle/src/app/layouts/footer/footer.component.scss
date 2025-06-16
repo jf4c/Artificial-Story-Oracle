@@ -1,20 +1,21 @@
-app-footer {
+.app-footer {
   display: block;
   color: white;
   text-align: center;
-  margin-top: auto;
+  padding: 2rem 0;
 }
 
 .medieval-footer {
-  background: linear-gradient(135deg, #1a1a1a 0%, #0f0f0f 100%);
-  border-top: 2px solid #8b6914;
+  margin-top: 2rem;
+  background: var(--bg-gradient);
+  border-top: 2px solid var(--accent-primary);
   padding: 1rem 0;
 }
 
 .footer-content {
   max-width: 1200px;
-  margin: 0 auto;
+  margin: 1rem auto;
   text-align: center;
-  color: #8b6914;
-  font-size: 0.9rem;
+  color: var(--text-primary);
+  font-size: 2rem;
 }

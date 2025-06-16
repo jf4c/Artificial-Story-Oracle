@@ -1,34 +1,72 @@
-<body class="app-home">
-  <div class="container">
-    <section class="introduction">
-    <img class="oraculo" src="assets/oraculoC2.png" alt="">
-    <img class="pergaminho" src="assets/pergaminho.png" alt="">
-    <h2 class="home-title">Artificial Story Oracle</h2>
-    <!-- <img class="oraculo" src="assets/oraculo.png" alt=""> -->
+<main class="app-home">
+  <section class="introduction">
+    <img class="oraculo-img" src="assets/Logo.png" alt="">
   </section>
-  <section class="home-content">
-    <div class="home-text">
+  <section class="features">
+    <app-feature-card
+      icon="📖"
+      title="Criar Aventura"
+      description="Crie e desenvolva sua campanhas de RPG com facilidade e criatividade.">
+    </app-feature-card>
+
+    
+    <app-feature-card
+      icon="🧙🏼‍♂️"
+      title="Criar Personagem"
+      description="Crie e gerencie a historia de seu personagem com auxilio da IA.">
+    </app-feature-card>
+
+    
+    <app-feature-card
+      icon="🌎"
+      title="Criar mundos"
+      description="Crie e desenvolva mundos ricos e detalhados para suas aventuras.">
+    </app-feature-card>    
+    
+  </section>
+
+  <section class="about">
+    <h2 class="about-title" >Sobre</h2>
+    <div class="about-text">
       <p>
-        ASO — Oráculo de História Artificial é uma plataforma inovadora para a 
-        criação de histórias grandiosas de fantasia, ideal para enriquecer as 
-        suas aventuras de RPG.
+        Oráculo de História Artificial é uma plataforma inovadora criada para 
+        transformar suas aventuras de RPG em narrativas épicas e memoráveis.
       </p>
       <p>
-        Este projeto nasceu de uma pesquisa de TCC desenvolvida em 2025 e tem
-        como propósito auxiliar mestres e jogadores na construção de campanhas
-        envolventes.
+        Nascido de uma pesquisa de TCC em 2025, o projeto tem como missão apoiar
+         mestres e jogadores na criação de campanhas envolventes, ricas em 
+         detalhes e cheias de possibilidades.
       </p>
       <p>
-        Aqui, você poderá criar suas campanhas com o apoio do Oráculo, que
-        utiliza Inteligência Artificial para gerar ideias, oferecer insights
-        criativos e inspirar narrativas épicas.
+        Com o auxílio do Oráculo, você poderá desenvolver mundos inteiros, 
+        tramas complexas e personagens marcantes. A Inteligência Artificial está
+        aqui para gerar ideias, sugerir reviravoltas criativas e impulsionar sua 
+        imaginação.
       </p>
       <p>
-        Além disso, o Oráculo pode ajudar no desenvolvimento da história dos
-        seus personagens, integrando-os de forma coesa e significativa ao mundo
-        que você está criando.
+        Seja construindo uma campanha do zero ou aprofundando a história de um 
+        personagem, o Oráculo integra cada elemento de forma coesa, dando vida a
+        um universo único moldado por você.
       </p>
     </div>
   </section>
-  </div>
-</body>
+
+  <section class="feature-historic">
+    <h2 class="infos-title" >Atualizações Recentes</h2>
+    <div class="historic-cards">
+      <app-historic-card
+        title="Nova Campanha: As Sombras de Eldoria"
+        date="12/05/2023"
+        description="Uma nova ameaça surge nas terras de Eldoria. Reúna seu grupo e enfrente as forças das sombras!">
+      </app-historic-card>
+
+      <app-historic-card
+        title="Novo Sistema de Magia"
+        date="03/04/2023"
+        description="Implementamos um novo sistema de magia com mais de 100 feitiços e rituais para seus personagens.">
+      </app-historic-card>
+    </div>
+   
+  </section>
+  
+</main>

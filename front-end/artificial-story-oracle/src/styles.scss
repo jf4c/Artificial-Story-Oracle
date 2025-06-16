@@ -1,13 +1,8 @@
 @use 'scss-reset/total';
+
+@import './styles/_variables.scss';
+
 html, body {
   font-family:'Cinzel Decorative', serif;
-  // height: 100%;
   margin: 0;
 }
-// Custom Theming for Angular Material
-// For more information: https://material.angular.dev/guide/theming
-// @use '@angular/material' as mat;
-
-
-// html, body { height: 100%; }
-// body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
