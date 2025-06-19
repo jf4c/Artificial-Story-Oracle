@@ -42,6 +42,7 @@ section {
     display: flex;
     justify-content: space-between;
   }
+  
   .infos-title, .about-title {
     text-align: start;
     font-size: 1.5rem;
@@ -50,17 +51,18 @@ section {
     padding-bottom: 0.5rem;
     font-weight: bold;
   }
+
   .about-text {
     text-align: justify;
     font-size: 1.2rem;
-    color: #000;
+    color: var(--text-quaternary);
     margin: 1rem;
     padding: 2rem 4rem;
     line-height: 1.8;
     font-weight: bold;
     border-radius: 10px;
-    background: rgb(195, 132, 32);
-    box-shadow: inset 0 0px 20px 10px rgb(72, 48, 11), var(--shadow-quinary);
+    background: var(--accent-quinary);
+    box-shadow: var(--shadow-insert-primary), var(--shadow-quinary);
   }
 
   .about-text::first-letter {
@@ -69,7 +71,7 @@ section {
     float: left; 
     line-height: 1;           
     margin-right: 8px;
-    color: #000; 
+    color: var(--text-quaternary); 
     text-shadow: var(--shadow-tertiary);
   } 
 }

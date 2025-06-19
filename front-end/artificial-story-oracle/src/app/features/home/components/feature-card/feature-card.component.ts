@@ -1,13 +1,13 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input } from '@angular/core'
 
 @Component({
   selector: 'app-feature-card',
   imports: [],
   templateUrl: './feature-card.component.html',
-  styleUrl: './feature-card.component.scss'
+  styleUrl: './feature-card.component.scss',
 })
 export class FeatureCardComponent {
-  @Input() icon: string = '';
-  @Input() title: string = '';
-  @Input() description: string = '';
+  @Input() icon = ''
+  @Input() title = ''
+  @Input() description = ''
 }

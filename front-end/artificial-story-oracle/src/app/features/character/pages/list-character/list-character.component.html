@@ -1,5 +1,12 @@
 <main class="app-character">
-  <div class="container">
   
+  <div class="character-list">
+    <app-character-card
+      *ngFor="let character of myCharacters"
+      [character]="character"
+      (edit)="handleEdit(character)"
+      (delete)="handleDelete(character)"
+    ></app-character-card>
   </div>
+
 </main>
