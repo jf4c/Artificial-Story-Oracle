@@ -1,4 +1,4 @@
-import { Component } from '@angular/core'
+import { Component, inject } from '@angular/core'
 import {
   RouterOutlet,
   Router,
@@ -25,7 +25,9 @@ export class AppComponent {
   title = 'ASO'
   currentTheme: 'light' | 'dark' = 'dark'
 
-  constructor(private router: Router) {
+  private router = inject(Router)
+
+  constructor() {
     this.setTheme(this.currentTheme)
   }
 

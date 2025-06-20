@@ -51,9 +51,39 @@ module.exports = tseslint.config(
     extends: [
       ...angular.configs.templateRecommended,
       ...angular.configs.templateAccessibility,
+      prettier,
     ],
+    plugins: {
+      prettier: prettierPlugin,
+    },
     rules: {
       "@angular-eslint/template/no-negated-async": "error",
+       "prettier/prettier": ["error", 
+        { 
+          "printWidth": 80,
+          "tabWidth": 2,
+          "endOfLine": "auto",
+          "htmlWhitespaceSensitivity": "ignore"
+        }
+      ],
+    },
+  },
+  {
+    files: ["**/*.css"],
+    extends: [
+      prettier,
+    ],
+    plugins: {
+      prettier: prettierPlugin,
+    },
+    rules: {
+       "prettier/prettier": ["error", 
+        { 
+          "printWidth": 80,
+          "tabWidth": 4,
+          "endOfLine": "auto"
+        }
+      ],
     },
   }
 );
