@@ -1,6 +1,8 @@
 ﻿using ASO.Api.Inputs;
 using ASO.Api.Inputs.Mappers;
+using ASO.Application.Abstractions.UseCase.Ancestry;
 using ASO.Application.Abstractions.UseCase.Characters;
+using ASO.Application.UseCases.Characters.GetAll;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,9 +10,13 @@ namespace ASO.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class CharacterController(ICreateCharacterHandler createCharacterHandler) : ControllerBase
+public class CharacterController(
+    ICreateCharacterHandler createCharacterHandler,
+    IGetAllCharactersHandler getAllCharactersHandler
+    ) : ControllerBase
 {
     private readonly ICreateCharacterHandler _createCharacterHandler = createCharacterHandler;
+    private readonly IGetAllCharactersHandler _getAllCharactersHandler = getAllCharactersHandler;
 
     [HttpPost]
     // [Authorize]
@@ -18,9 +24,17 @@ public class CharacterController(ICreateCharacterHandler createCharacterHandler)
     public async Task<IActionResult> CreateCharacter([FromBody] CreateCharacterInput input)
     {
         var command = input.ToCommand();
-        
+
         var player = await _createCharacterHandler.HandleAsync(command);
-        
+
         return Ok(player);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetAllCharacters()
+    {
+        var query = new GetAllCharactersQuery();
+        var response = await _getAllCharactersHandler.Handle(query);
+        return Ok(new List<string> { "Character1", "Character2" });
     }
 }

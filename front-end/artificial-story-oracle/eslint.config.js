@@ -42,6 +42,7 @@ module.exports = tseslint.config(
           "printWidth": 80,
           "tabWidth": 2,
           "semi": false,
+          "endOfLine": "auto",
          }
         ],
     },

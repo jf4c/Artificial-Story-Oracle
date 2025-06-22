@@ -1,0 +1,31 @@
+<div class="dropdown-input-container" (clickOutside)="isOpen = false">
+  <button
+    type="button"
+    class="input-box"
+    (click)="toggleDropdown()"
+    [attr.aria-expanded]="isOpen"
+    aria-haspopup="listbox"
+  >
+    <input
+      [placeholder]="placeholder"
+      [value]="selectedOption"
+      readonly
+      tabindex="-1"
+    />
+    <span
+      class="material-icons clear-btn"
+      *ngIf="selectedOption !== null && selectedOption !== ''"
+      (click)="clearSelection($event)"
+    >
+      close
+    </span>
+    <span class="material-icons arrow" [class.invert]="isOpen">
+      keyboard_arrow_down
+    </span>
+  </button>
+  <ul class="dropdown-list" [class.open]="isOpen">
+    <li *ngFor="let option of options" (click)="selectOption(option)">
+      {{ option }}
+    </li>
+  </ul>
+</div>

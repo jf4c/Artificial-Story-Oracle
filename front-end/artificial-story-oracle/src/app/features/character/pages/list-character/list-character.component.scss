@@ -7,6 +7,30 @@
   margin: 1rem auto;
 }
 
+.character-filter {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  width: 60%;
+  max-width: 1200px;
+
+  div {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .filter-input {
+    width: 100%;
+    margin: 0.5rem;
+  }
+
+  .dropdown-input {
+    margin: 0.5rem;
+  }
+
+}
+
 .character-list {
   display: grid;
   width: 100%;

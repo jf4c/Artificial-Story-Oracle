@@ -6,4 +6,5 @@ namespace ASO.Domain.Game.Repositories.Abstractions;
 public interface ICharacterRepository : IRepository<Character>
 {
     Task<Character> Create(Character character);
+    Task<List<Character>> GetAll();
 }

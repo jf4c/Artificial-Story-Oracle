@@ -5,12 +5,12 @@ import {
   RouterLink,
   RouterLinkActive,
 } from '@angular/router'
-import { HeaderComponent } from './layouts/header/header.component'
-import { FooterComponent } from './layouts/footer/footer.component'
+import { HeaderComponent } from './core/layouts/header/header.component'
+import { FooterComponent } from './core/layouts/footer/footer.component'
 
 @Component({
   selector: 'app-root',
-  standalone: true, // Muito importante! Indica que é Standalone.
+  standalone: true,
   imports: [
     RouterOutlet,
     RouterLink,

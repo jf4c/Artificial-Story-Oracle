@@ -28,4 +28,9 @@ public class ClassQueryService(AppDbContext context) : IClassQueryService
         
         return classes;
     }
+
+    public async Task<List<Class>> GetAll()
+    {
+        return await _context.Classes.AsNoTracking().ToListAsync();
+    }
 }

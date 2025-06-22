@@ -1,6 +1,7 @@
 ﻿using ASO.Domain.Game.Entities;
 using ASO.Domain.Game.Repositories.Abstractions;
 using ASO.Infra.Database;
+using Microsoft.EntityFrameworkCore;
 
 namespace ASO.Infra.Repositories;
 
@@ -13,5 +14,10 @@ public class CharacterRepository(AppDbContext context) : ICharacterRepository
         _context.Characters.Add(character);
         await _context.SaveChangesAsync();
         return character;
+    }
+
+    public Task<List<Character>> GetAll()
+    {
+        return _context.Characters.AsNoTracking().ToListAsync();
     }
 }

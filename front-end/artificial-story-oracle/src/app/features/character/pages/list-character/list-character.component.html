@@ -1,4 +1,28 @@
 <main class="app-character">
+  <div class="character-filter">
+    <!-- <app-input
+      class="filter-input"
+      placeholder="buscar por nome"
+      icon="search"
+    ></app-input> -->
+    <app-input
+      class="filter-input"
+      placeholder="Buscar por nome"
+      icon="search"
+    ></app-input>
+    <div>
+      <app-dropdown-input
+        class="dropdown-input"
+        [options]="getAncestryNames()"
+        placeholder="Selecionar uma raça"
+      ></app-dropdown-input>
+      <app-dropdown-input
+        class="dropdown-input"
+        [options]="getClassNames()"
+        placeholder="Selecionar uma classe"
+      ></app-dropdown-input>
+    </div>
+  </div>
   <div class="character-list">
     <app-character-card
       *ngFor="let character of myCharacters"

@@ -6,12 +6,12 @@ namespace ASO.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class AncestryCrontroller(IGetAllAncestryHandler getAllAncestryHandler) : ControllerBase
+public class AncestryController(IGetAllAncestryHandler getAllAncestryHandler) : ControllerBase
 {
     private readonly IGetAllAncestryHandler _getAllAncestryHandler = getAllAncestryHandler;
 
     [HttpGet]
-    [Authorize]
+    // [Authorize]
     public async Task<IActionResult> GetAllAncestries()
     {
         var ancestries = await _getAllAncestryHandler.Handle();

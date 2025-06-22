@@ -7,4 +7,5 @@ public interface IClassQueryService : IQueryService<Class>
 {
     Task<Class> GetById(Guid id);
     Task<List<Class>> GetByIds(List<Guid> ids);
+    Task<List<Class>> GetAll();
 }

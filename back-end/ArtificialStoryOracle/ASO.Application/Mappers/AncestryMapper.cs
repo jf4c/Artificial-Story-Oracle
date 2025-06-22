@@ -11,16 +11,8 @@ public static class AncestryMapper
         {
             Ancestries = ancestries.Select(a => new AncestryDto
             {
+                Id = a.Id,
                 Name = a.Name,
-                Backstory = a.Backstory,
-                ModStrength = a.Modifiers.ModStrength,
-                ModDexterity = a.Modifiers.ModDexterity,
-                ModConstitution = a.Modifiers.ModConstitution,
-                ModIntelligence = a.Modifiers.ModIntelligence,
-                ModWisdom = a.Modifiers.ModWisdom,
-                ModCharisma = a.Modifiers.ModCharisma,
-                Size = a.Size,
-                Displacement = a.Displacement
             })
         };
     }

@@ -1,7 +1,10 @@
 using ASO.Application.Abstractions.UseCase.Ancestry;
 using ASO.Application.Abstractions.UseCase.Characters;
+using ASO.Application.Abstractions.UseCase.Classes;
 using ASO.Application.UseCases.Ancestry.GetAllAncestry;
 using ASO.Application.UseCases.Characters.Create;
+using ASO.Application.UseCases.Characters.GetAll;
+using ASO.Application.UseCases.Classes.GetAll;
 using ASO.Domain.Game.QueriesServices;
 using ASO.Domain.Game.Repositories.Abstractions;
 using ASO.Infra.Database;
@@ -34,16 +37,21 @@ builder.Services.AddAuthentication("Bearer")
             OnAuthenticationFailed = context => Task.CompletedTask,
             OnMessageReceived = context => Task.CompletedTask
         };
-
     });
 
 var cnnStr = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<AppDbContext>(x =>
+builder.Services.AddDbContext<AppDbContext>(x => { x.UseNpgsql(cnnStr); });
+
+builder.Services.AddCors(options =>
 {
-    x.UseNpgsql(cnnStr);
+    options.AddPolicy("AllowAngular",
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:4200") // permite Angular
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        });
 });
-
-
 
 builder.Services.AddSwaggerGen(c =>
 {
@@ -81,6 +89,8 @@ builder.Services.AddScoped<IClassQueryService, ClassQueryService>();
 builder.Services.AddScoped<IExpertiseQueryService, ExpertiseQueryService>();
 builder.Services.AddScoped<ICreateCharacterHandler, CreateCharacterHandler>();
 builder.Services.AddScoped<ICharacterRepository, CharacterRepository>();
+builder.Services.AddScoped<IGetAllCharactersHandler, GetAllCharactersHandler>();
+builder.Services.AddScoped<IGetAllClassesHandler, GetAllClassesHandler>();
 
 builder.Services.AddEndpointsApiExplorer();
 
@@ -97,19 +107,25 @@ using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     context.Database.Migrate();
-    AncestrySeed.Seed(context); 
-    ExpertiseSeed.Seed(context); 
+    AncestrySeed.Seed(context);
+    ExpertiseSeed.Seed(context);
     ClassSeed.Seed(context);
 }
 
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "ASO.Api v1");
+        c.RoutePrefix = string.Empty;
+    });
 }
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseCors("AllowAngular");
 
 app.MapControllers();
 
