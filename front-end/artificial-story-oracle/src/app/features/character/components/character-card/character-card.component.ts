@@ -3,7 +3,7 @@ import { Character } from '../../models/character.model'
 import { CommonModule } from '@angular/common'
 
 @Component({
-  selector: 'app-character-card',
+  selector: 'aso-character-card',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './character-card.component.html',

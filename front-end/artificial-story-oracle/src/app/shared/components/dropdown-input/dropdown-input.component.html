@@ -12,20 +12,28 @@
       readonly
       tabindex="-1"
     />
-    <span
+
+    <button
       class="material-icons clear-btn"
       *ngIf="selectedOption !== null && selectedOption !== ''"
       (click)="clearSelection($event)"
     >
       close
-    </span>
-    <span class="material-icons arrow" [class.invert]="isOpen">
-      keyboard_arrow_down
-    </span>
+    </button>
+
+    @if (isLoading) {
+      <aso-loading [inline]="true"></aso-loading>
+    } @else {
+      <span class="material-icons arrow" [class.invert]="isOpen">
+        keyboard_arrow_down
+      </span>
+    }
   </button>
   <ul class="dropdown-list" [class.open]="isOpen">
-    <li *ngFor="let option of options" (click)="selectOption(option)">
-      {{ option }}
-    </li>
+    @for (option of options; track $index) {
+      <li (click)="selectOption(option)">
+        {{ option }}
+      </li>
+    }
   </ul>
 </div>

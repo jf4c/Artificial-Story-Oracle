@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core'
 
 @Component({
-  selector: 'app-input',
+  selector: 'aso-input',
   imports: [],
   templateUrl: './input.component.html',
   styleUrls: ['./input.component.scss'],

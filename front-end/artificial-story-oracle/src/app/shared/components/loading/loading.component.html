@@ -1,0 +1,12 @@
+<div
+  class="loading-container"
+  [ngClass]="{
+    inline: inline,
+    fullscreen: fullscreen,
+  }"
+>
+  <span class="spinner"></span>
+  @if (text) {
+    <span>{{ text }}</span>
+  }
+</div>

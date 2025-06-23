@@ -1,16 +1,18 @@
 import { CommonModule } from '@angular/common'
 import { Component, Input } from '@angular/core'
+import { LoadingComponent } from '../loading/loading.component'
 
 @Component({
-  selector: 'app-dropdown-input',
+  selector: 'aso-dropdown-input',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, LoadingComponent],
   templateUrl: './dropdown-input.component.html',
   styleUrl: './dropdown-input.component.scss',
 })
 export class DropdownInputComponent {
   @Input() options: string[] = []
   @Input() placeholder = 'Selecione...'
+  @Input() isLoading = false
 
   isOpen = false
   selectedOption: string | null = null

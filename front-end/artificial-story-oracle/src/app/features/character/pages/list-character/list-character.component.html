@@ -1,34 +1,35 @@
-<main class="app-character">
+<main class="aso-character">
   <div class="character-filter">
-    <!-- <app-input
+    <!-- <aso-input
       class="filter-input"
       placeholder="buscar por nome"
       icon="search"
-    ></app-input> -->
-    <app-input
+    ></aso-input> -->
+    <aso-input
       class="filter-input"
       placeholder="Buscar por nome"
       icon="search"
-    ></app-input>
+    ></aso-input>
     <div>
-      <app-dropdown-input
+      <aso-dropdown-input
         class="dropdown-input"
         [options]="getAncestryNames()"
         placeholder="Selecionar uma raça"
-      ></app-dropdown-input>
-      <app-dropdown-input
+        [isLoading]="isLoading"
+      ></aso-dropdown-input>
+      <aso-dropdown-input
         class="dropdown-input"
         [options]="getClassNames()"
         placeholder="Selecionar uma classe"
-      ></app-dropdown-input>
+      ></aso-dropdown-input>
     </div>
   </div>
   <div class="character-list">
-    <app-character-card
+    <aso-character-card
       *ngFor="let character of myCharacters"
       [character]="character"
       (edit)="handleEdit(character)"
       (delete)="handleDelete(character)"
-    ></app-character-card>
+    ></aso-character-card>
   </div>
 </main>

@@ -3,7 +3,7 @@ import { FeatureCardComponent } from './components/feature-card/feature-card.com
 import { HistoricCardComponent } from './components/historic-card/historic-card.component'
 
 @Component({
-  selector: 'app-home',
+  selector: 'aso-home',
   standalone: true,
   imports: [FeatureCardComponent, HistoricCardComponent],
   templateUrl: './home.component.html',

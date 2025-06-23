@@ -9,7 +9,7 @@ import { HeaderComponent } from './core/layouts/header/header.component'
 import { FooterComponent } from './core/layouts/footer/footer.component'
 
 @Component({
-  selector: 'app-root',
+  selector: 'aso-root',
   standalone: true,
   imports: [
     RouterOutlet,

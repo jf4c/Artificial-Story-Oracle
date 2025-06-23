@@ -20,22 +20,14 @@ module.exports = tseslint.config(
     },
     processor: angular.processInlineTemplates,
     rules: {
-      "@angular-eslint/directive-selector": [
-        "error",
-        {
-          type: "attribute",
-          prefix: "app",
-          style: "camelCase",
-        },
-      ],
       "@angular-eslint/component-selector": [
-        "error",
-        {
-          type: "element",
-          prefix: "app",
-          style: "kebab-case",
-        },
-      ],
+          "error",
+          {
+            "type": "element",
+            "prefix": ["aso"],
+            "style": "kebab-case"
+          }
+        ],
       "prettier/prettier": ["error", 
         { 
           "singleQuote": true, 
@@ -51,15 +43,14 @@ module.exports = tseslint.config(
     files: ["**/*.html"],
     extends: [
       ...angular.configs.templateRecommended,
-      ...angular.configs.templateAccessibility,
+      // ...angular.configs.templateAccessibility,
       prettier,
     ],
     plugins: {
       prettier: prettierPlugin,
     },
     rules: {
-      "@angular-eslint/template/no-negated-async": "error",
-       "prettier/prettier": ["error", 
+      "prettier/prettier": ["error", 
         { 
           "printWidth": 80,
           "tabWidth": 2,

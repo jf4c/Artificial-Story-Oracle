@@ -8,15 +8,17 @@ import { Class, Classes } from '@features/character/models/class.model'
 import { Character } from '@features/character/models/character.model'
 import { InputComponent } from '@shared/components/input/input.component'
 import { DropdownInputComponent } from '@shared/components/dropdown-input/dropdown-input.component'
+import { LoadingComponent } from '@app/shared/components/loading/loading.component'
 
 @Component({
-  selector: 'app-list-character',
+  selector: 'aso-list-character',
   standalone: true,
   imports: [
     CharacterCardComponent,
     InputComponent,
     DropdownInputComponent,
     CommonModule,
+    LoadingComponent,
   ],
   templateUrl: './list-character.component.html',
   styleUrl: './list-character.component.scss',
@@ -26,15 +28,19 @@ export class ListCharacterComponent implements OnInit {
   private classService = inject(ClassService)
   ancestries: Ancestry[] = []
   classes: Class[] = []
+  isLoading = true
 
   constructor() {
     console.log('ListCharacterComponent constructed')
   }
 
   ngOnInit(): void {
+    this.isLoading = true
+
     this.ancestryService.getAncestries().subscribe({
       next: (data: Ancestries) => {
         this.ancestries = data.ancestries as Ancestry[]
+        // this.isLoading = false
       },
       error: (error: unknown) => {
         console.error('Erro ao carregar as raças:', error)
@@ -43,6 +49,7 @@ export class ListCharacterComponent implements OnInit {
     this.classService.getClasses().subscribe({
       next: (data: Classes) => {
         this.classes = data.classes as Class[]
+        // this.isLoading = false
       },
       error: (error: unknown) => {
         console.error('Erro ao carregar as classes:', error)
