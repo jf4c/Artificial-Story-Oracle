@@ -1,3 +1,4 @@
+using ASO.Api.Middleware;
 using ASO.Application.Abstractions.UseCase.Ancestry;
 using ASO.Application.Abstractions.UseCase.Characters;
 using ASO.Application.Abstractions.UseCase.Classes;
@@ -112,6 +113,9 @@ using (var scope = app.Services.CreateScope())
     ClassSeed.Seed(context);
 }
 
+// Adicionar middleware de tratamento de exceções no início do pipeline
+app.UseExceptionHandling();
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -126,6 +130,9 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseCors("AllowAngular");
+
+// TODO: Adicionar middleware de tratamento de exceções quando for implementado
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.MapControllers();
 
