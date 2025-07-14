@@ -12,36 +12,30 @@ public class CharactersMap : IEntityTypeConfiguration<Character>
         builder.HasKey(c => c.Id);
         builder.Property(c => c.Id)
             .HasColumnName("id");
-        builder.OwnsOne(c => c.Name, name =>
-        {
-            name.Property(n => n.FirstName)
-                .HasColumnName("first_name")
-                .IsRequired();
-            
-            name.Property(n => n.LastName)
-                .HasColumnName("last_name")
-                .IsRequired();
-        });
         
+        builder.Property(c => c.Name)
+            .HasColumnName("name")
+            .IsRequired();
+
         builder.Property(c => c.TypeCharacter)
             .HasColumnName("type_character")
             .IsRequired();
         builder.Property(c => c.Level)
             .HasColumnName("level");
-        
+
         builder.HasOne(c => c.Ancestry)
             .WithMany()
             .HasForeignKey("ancestry_id")
             .OnDelete(DeleteBehavior.Cascade);
-        
-        builder.HasMany(c => c.Expertises)
+
+        builder.HasMany(c => c.Skills)
             .WithMany(c => c.Characters)
             .UsingEntity<Dictionary<string, object>>(
                 "characters_expertises",
-                j => j.HasOne<Expertise>().WithMany().HasForeignKey("expertise_id"),
+                j => j.HasOne<Skill>().WithMany().HasForeignKey("expertise_id"),
                 j => j.HasOne<Character>().WithMany().HasForeignKey("character_id"),
                 j => j.HasKey("expertise_id", "character_id"));
-        
+
         builder.HasMany(c => c.Classes)
             .WithMany(c => c.Characters)
             .UsingEntity<Dictionary<string, object>>(
@@ -49,5 +43,32 @@ public class CharactersMap : IEntityTypeConfiguration<Character>
                 j => j.HasOne<Class>().WithMany().HasForeignKey("class_id"),
                 j => j.HasOne<Character>().WithMany().HasForeignKey("character_id"),
                 j => j.HasKey("class_id", "character_id"));
+
+        builder.OwnsOne(a => a.Modifiers, modifiers =>
+        {
+            modifiers.Property(m => m.ModStrength)
+                .HasColumnName("mod_strength")
+                .IsRequired();
+
+            modifiers.Property(m => m.ModDexterity)
+                .HasColumnName("mod_dexterity")
+                .IsRequired();
+
+            modifiers.Property(m => m.ModConstitution)
+                .HasColumnName("mod_constitution")
+                .IsRequired();
+
+            modifiers.Property(m => m.ModIntelligence)
+                .HasColumnName("mod_intelligence")
+                .IsRequired();
+
+            modifiers.Property(m => m.ModWisdom)
+                .HasColumnName("mod_wisdom")
+                .IsRequired();
+
+            modifiers.Property(m => m.ModCharisma)
+                .HasColumnName("mod_charisma")
+                .IsRequired();
+        });
     }
 }

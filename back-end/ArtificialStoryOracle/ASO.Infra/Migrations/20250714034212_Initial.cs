@@ -18,12 +18,6 @@ namespace ASO.Infra.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     backstory = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
-                    mod_strength = table.Column<int>(type: "integer", nullable: false),
-                    mod_dexterity = table.Column<int>(type: "integer", nullable: false),
-                    mod_constitution = table.Column<int>(type: "integer", nullable: false),
-                    mod_intelligence = table.Column<int>(type: "integer", nullable: false),
-                    mod_wisdom = table.Column<int>(type: "integer", nullable: false),
-                    mod_charisma = table.Column<int>(type: "integer", nullable: false),
                     size = table.Column<float>(type: "real", nullable: false),
                     displacement = table.Column<int>(type: "integer", nullable: false)
                 },
@@ -48,7 +42,7 @@ namespace ASO.Infra.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "expertises",
+                name: "Skills",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -67,11 +61,17 @@ namespace ASO.Infra.Migrations
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
-                    first_name = table.Column<string>(type: "text", nullable: false),
-                    last_name = table.Column<string>(type: "text", nullable: false),
+                    name = table.Column<string>(type: "text", nullable: false),
                     type_character = table.Column<int>(type: "integer", nullable: false),
                     ancestry_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    level = table.Column<int>(type: "integer", nullable: false)
+                    mod_strength = table.Column<int>(type: "integer", nullable: false),
+                    mod_dexterity = table.Column<int>(type: "integer", nullable: false),
+                    mod_constitution = table.Column<int>(type: "integer", nullable: false),
+                    mod_intelligence = table.Column<int>(type: "integer", nullable: false),
+                    mod_wisdom = table.Column<int>(type: "integer", nullable: false),
+                    mod_charisma = table.Column<int>(type: "integer", nullable: false),
+                    level = table.Column<int>(type: "integer", nullable: false),
+                    Backstory = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -85,7 +85,7 @@ namespace ASO.Infra.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "character_expertises",
+                name: "character_skill",
                 columns: table => new
                 {
                     expertise_id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -93,18 +93,18 @@ namespace ASO.Infra.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_character_expertises", x => new { x.expertise_id, x.character_id });
+                    table.PrimaryKey("PK_character_skill", x => new { x.expertise_id, x.character_id });
                     table.ForeignKey(
-                        name: "FK_character_expertises_characters_character_id",
+                        name: "FK_character_skill_Skills_expertise_id",
+                        column: x => x.expertise_id,
+                        principalTable: "Skills",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_character_skill_characters_character_id",
                         column: x => x.character_id,
                         principalTable: "characters",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_character_expertises_expertises_expertise_id",
-                        column: x => x.expertise_id,
-                        principalTable: "expertises",
-                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -133,8 +133,8 @@ namespace ASO.Infra.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_character_expertises_character_id",
-                table: "character_expertises",
+                name: "IX_character_skill_character_id",
+                table: "character_skill",
                 column: "character_id");
 
             migrationBuilder.CreateIndex(
@@ -152,13 +152,13 @@ namespace ASO.Infra.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "character_expertises");
+                name: "character_skill");
 
             migrationBuilder.DropTable(
                 name: "characters_classes");
 
             migrationBuilder.DropTable(
-                name: "expertises");
+                name: "Skills");
 
             migrationBuilder.DropTable(
                 name: "characters");

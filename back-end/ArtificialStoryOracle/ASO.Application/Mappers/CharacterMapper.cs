@@ -2,6 +2,7 @@
 using ASO.Domain.Game.Dtos.Character;
 using ASO.Domain.Game.Entities;
 using ASO.Domain.Game.Enums;
+using ASO.Domain.Game.ValueObjects;
 
 namespace ASO.Application.Mappers;
 
@@ -16,19 +17,20 @@ public static class CharacterMapper
             Level = entity.Level,
         };
     }
-    
-    public static CreateCharacterDto ToCreateCharacterDto(this CreateCharacterCommand command, 
+
+    public static CreateCharacterDto ToCreateCharacterDto(this CreateCharacterCommand command,
         Ancestry ancestry,
-        List<Class> classes, 
-        List<Expertise> expertises)
+        Class classe,
+        List<Skill> skills, 
+        AttributeModifiers modifiers)
     {
         return new CreateCharacterDto
         {
-            FirstName = command.FirstName,
-            LastName = command.LastName,
+            Name = command.Name,
             Ancestry = ancestry,
-            Expertises = expertises,
-            Classes = classes
+            Skills = skills,
+            Classes = classe,
+            Modifiers = modifiers
         };
     }
 }

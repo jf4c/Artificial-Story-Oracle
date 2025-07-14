@@ -1,6 +1,6 @@
 ﻿namespace ASO.Domain.Game.Enums;
 
-public static class ExpertiseName
+public static class SkillName
 {
     public const string Acrobatics = "Acrobacia";
     public const string AnimalHandling = "Adestramento";

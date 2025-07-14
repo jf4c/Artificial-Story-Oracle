@@ -28,32 +28,5 @@ public class AncestryMap : IEntityTypeConfiguration<Ancestry>
         builder.Property(a => a.Displacement)
             .HasColumnName("displacement")
             .IsRequired(); 
-        
-        builder.OwnsOne(a => a.Modifiers, modifiers =>
-        {
-            modifiers.Property(m => m.ModStrength)
-                .HasColumnName("mod_strength")
-                .IsRequired();
-            
-            modifiers.Property(m => m.ModDexterity)
-                .HasColumnName("mod_dexterity")
-                .IsRequired();
-            
-            modifiers.Property(m => m.ModConstitution)
-                .HasColumnName("mod_constitution")
-                .IsRequired();
-            
-            modifiers.Property(m => m.ModIntelligence)
-                .HasColumnName("mod_intelligence")
-                .IsRequired();
-            
-            modifiers.Property(m => m.ModWisdom)
-                .HasColumnName("mod_wisdom")
-                .IsRequired();
-            
-            modifiers.Property(m => m.ModCharisma)
-                .HasColumnName("mod_charisma")
-                .IsRequired();
-        });
     }
 }

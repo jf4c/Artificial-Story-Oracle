@@ -1,5 +1,6 @@
 ﻿using ASO.Domain.Game.Dtos.Character;
 using ASO.Domain.Game.Enums;
+using ASO.Domain.Game.ValueObjects;
 using ASO.Domain.Shared.Aggregates.Abstractions;
 using ASO.Domain.Shared.Entities;
 using ASO.Domain.Shared.ValueObjects;
@@ -9,49 +10,56 @@ namespace ASO.Domain.Game.Entities;
 public class Character : Entity, IAggragateRoot
 {
     #region Constructors
-    
-    private Character() {
+
+    private Character()
+    {
+        Modifiers = null!;
         Name = null!;
         Ancestry = null!;
         Classes = new();
-        Expertises = new();
+        Skills = new();
     }
-    
-    private Character(Name name, Ancestry ancestry, List<Expertise> expertises,  List<Class> classes)
+
+    private Character(string name, Ancestry ancestry, List<Skill> skills, Class classe,
+        AttributeModifiers modifiers, string? backstory)
     {
         Name = name;
         Ancestry = ancestry;
-        Classes = classes;
-        Expertises = expertises;
+        Classes = [classe];
+        Skills = skills;
+        Modifiers = modifiers;
+        Backstory = backstory;
         InitLevel();
     }
-    
+
     #endregion
 
     public static Character Create(CreateCharacterDto dto)
-    {
-        var name = Name.Create(dto.FirstName, dto.LastName);
-        if (dto.Expertises == null || dto.Expertises.Count == 0)
-            throw new ArgumentException("Expertises cannot be null or empty.", nameof(dto.Expertises));
-        
-        if (dto.Classes == null || dto.Classes.Count == 0)
+    { 
+        if (dto.Skills == null || dto.Skills.Count == 0)
+            throw new ArgumentException("Expertises cannot be null or empty.", nameof(dto.Skills));
+
+        if (dto.Classes == null)
             throw new ArgumentException("Classes cannot be null or empty.", nameof(dto.Classes));
-        
+
         if (dto.Ancestry == null)
             throw new ArgumentException("Ancestry cannot be null.", nameof(dto.Ancestry));
 
-        return new Character(name, dto.Ancestry, dto.Expertises, dto.Classes);
+        return new Character(dto.Name, dto.Ancestry, dto.Skills, dto.Classes, dto.Modifiers,
+            dto.Backstory);
     }
-    
-    public Name Name { get; }
+
+    public string Name { get; }
     public TypeCharacter TypeCharacter { get; } = TypeCharacter.Player;
-    public Ancestry Ancestry { get; } 
-    public List<Class>? Classes { get; } 
-    public List<Expertise>? Expertises { get; }
+    public Ancestry Ancestry { get; }
+    public List<Class>? Classes { get; }
+    public List<Skill>? Skills { get; }
+    public AttributeModifiers Modifiers { get; }
     public int Level { get; set; }
+    public string? Backstory { get; set; }
 
     private void InitLevel()
     {
         Level = 1;
     }
-} 
+}

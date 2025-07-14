@@ -2,10 +2,12 @@ using ASO.Api.Middleware;
 using ASO.Application.Abstractions.UseCase.Ancestry;
 using ASO.Application.Abstractions.UseCase.Characters;
 using ASO.Application.Abstractions.UseCase.Classes;
+using ASO.Application.Abstractions.UseCase.Skills;
 using ASO.Application.UseCases.Ancestry.GetAllAncestry;
 using ASO.Application.UseCases.Characters.Create;
 using ASO.Application.UseCases.Characters.GetAll;
 using ASO.Application.UseCases.Classes.GetAll;
+using ASO.Application.UseCases.Skills.GetAllSkills;
 using ASO.Domain.Game.QueriesServices;
 using ASO.Domain.Game.Repositories.Abstractions;
 using ASO.Infra.Database;
@@ -87,11 +89,12 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddScoped<IGetAllAncestryHandler, GetAllAncestryHandler>();
 builder.Services.AddScoped<IAncestryQueryService, AncestryQueryService>();
 builder.Services.AddScoped<IClassQueryService, ClassQueryService>();
-builder.Services.AddScoped<IExpertiseQueryService, ExpertiseQueryService>();
+builder.Services.AddScoped<ISkillQueryService, SkillQueryService>();
 builder.Services.AddScoped<ICreateCharacterHandler, CreateCharacterHandler>();
 builder.Services.AddScoped<ICharacterRepository, CharacterRepository>();
 builder.Services.AddScoped<IGetAllCharactersHandler, GetAllCharactersHandler>();
 builder.Services.AddScoped<IGetAllClassesHandler, GetAllClassesHandler>();
+builder.Services.AddScoped<IGetAllSkillsHandler, GetAllSkillsHandler>();
 
 builder.Services.AddEndpointsApiExplorer();
 
@@ -109,7 +112,7 @@ using (var scope = app.Services.CreateScope())
     var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     context.Database.Migrate();
     AncestrySeed.Seed(context);
-    ExpertiseSeed.Seed(context);
+    SkillSeed.Seed(context);
     ClassSeed.Seed(context);
 }
 

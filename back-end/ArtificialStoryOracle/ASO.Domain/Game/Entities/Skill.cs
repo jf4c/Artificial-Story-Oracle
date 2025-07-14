@@ -3,16 +3,16 @@ using ASO.Domain.Shared.Entities;
 
 namespace ASO.Domain.Game.Entities;
 
-public class Expertise : Entity
+public class Skill : Entity
 {
     #region Constructors
     
-    private Expertise()
+    private Skill()
     {
         Name = null!; 
     }
     
-    private Expertise(string name, AttributeBase keyAttributes, bool trained = false, bool armorPenalty = false)
+    private Skill(string name, AttributeBase keyAttributes, bool trained = false, bool armorPenalty = false)
     {
         Name = name;
         KeyAttributes = keyAttributes;
@@ -22,9 +22,9 @@ public class Expertise : Entity
     
     #endregion
     
-    public static Expertise Create(string name, AttributeBase keyAttributes, bool trained = false, bool armorPenalty = false)
+    public static Skill Create(string name, AttributeBase keyAttributes, bool trained = false, bool armorPenalty = false)
     {
-        return new Expertise(name, keyAttributes, trained, armorPenalty);
+        return new Skill(name, keyAttributes, trained, armorPenalty);
     }
     
     public string Name { get; }

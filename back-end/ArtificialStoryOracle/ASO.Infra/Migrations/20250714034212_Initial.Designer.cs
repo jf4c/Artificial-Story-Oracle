@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ASO.Infra.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250527005558_Initial")]
+    [Migration("20250714034212_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -63,9 +63,17 @@ namespace ASO.Infra.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
+                    b.Property<string>("Backstory")
+                        .HasColumnType("text");
+
                     b.Property<int>("Level")
                         .HasColumnType("integer")
                         .HasColumnName("level");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("name");
 
                     b.Property<int>("TypeCharacter")
                         .HasColumnType("integer")
@@ -103,7 +111,7 @@ namespace ASO.Infra.Migrations
                     b.ToTable("classes", (string)null);
                 });
 
-            modelBuilder.Entity("ASO.Domain.Game.Entities.Expertise", b =>
+            modelBuilder.Entity("ASO.Domain.Game.Entities.Skill", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -130,7 +138,7 @@ namespace ASO.Infra.Migrations
                     b.HasKey("Id")
                         .HasName("id");
 
-                    b.ToTable("expertises", (string)null);
+                    b.ToTable("Skills", (string)null);
                 });
 
             modelBuilder.Entity("characters_classes", b =>
@@ -160,14 +168,20 @@ namespace ASO.Infra.Migrations
 
                     b.HasIndex("character_id");
 
-                    b.ToTable("character_expertises", (string)null);
+                    b.ToTable("character_skill", (string)null);
                 });
 
-            modelBuilder.Entity("ASO.Domain.Game.Entities.Ancestry", b =>
+            modelBuilder.Entity("ASO.Domain.Game.Entities.Character", b =>
                 {
+                    b.HasOne("ASO.Domain.Game.Entities.Ancestry", "Ancestry")
+                        .WithMany()
+                        .HasForeignKey("ancestry_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.OwnsOne("ASO.Domain.Game.ValueObjects.AttributeModifiers", "Modifiers", b1 =>
                         {
-                            b1.Property<Guid>("AncestryId")
+                            b1.Property<Guid>("CharacterId")
                                 .HasColumnType("uuid");
 
                             b1.Property<int>("ModCharisma")
@@ -194,41 +208,6 @@ namespace ASO.Infra.Migrations
                                 .HasColumnType("integer")
                                 .HasColumnName("mod_wisdom");
 
-                            b1.HasKey("AncestryId");
-
-                            b1.ToTable("ancestries");
-
-                            b1.WithOwner()
-                                .HasForeignKey("AncestryId");
-                        });
-
-                    b.Navigation("Modifiers")
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("ASO.Domain.Game.Entities.Character", b =>
-                {
-                    b.HasOne("ASO.Domain.Game.Entities.Ancestry", "Ancestry")
-                        .WithMany()
-                        .HasForeignKey("ancestry_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.OwnsOne("ASO.Domain.Shared.ValueObjects.Name", "Name", b1 =>
-                        {
-                            b1.Property<Guid>("CharacterId")
-                                .HasColumnType("uuid");
-
-                            b1.Property<string>("FirstName")
-                                .IsRequired()
-                                .HasColumnType("text")
-                                .HasColumnName("first_name");
-
-                            b1.Property<string>("LastName")
-                                .IsRequired()
-                                .HasColumnType("text")
-                                .HasColumnName("last_name");
-
                             b1.HasKey("CharacterId");
 
                             b1.ToTable("characters");
@@ -239,7 +218,7 @@ namespace ASO.Infra.Migrations
 
                     b.Navigation("Ancestry");
 
-                    b.Navigation("Name")
+                    b.Navigation("Modifiers")
                         .IsRequired();
                 });
 
@@ -293,7 +272,7 @@ namespace ASO.Infra.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ASO.Domain.Game.Entities.Expertise", null)
+                    b.HasOne("ASO.Domain.Game.Entities.Skill", null)
                         .WithMany()
                         .HasForeignKey("expertise_id")
                         .OnDelete(DeleteBehavior.Cascade)

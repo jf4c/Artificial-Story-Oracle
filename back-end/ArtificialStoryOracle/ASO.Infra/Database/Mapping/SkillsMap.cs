@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ASO.Infra.Database.Mapping;
 
-public class ExpertisesMap : IEntityTypeConfiguration<Expertise>
+public class SkillsMap : IEntityTypeConfiguration<Skill>
 {
-    public void Configure(EntityTypeBuilder<Expertise> builder)
+    public void Configure(EntityTypeBuilder<Skill> builder)
     {
-        builder.ToTable("expertises");
+        builder.ToTable("Skills");
         
         builder.HasKey(e => e.Id)
             .HasName("id");
@@ -31,7 +31,7 @@ public class ExpertisesMap : IEntityTypeConfiguration<Expertise>
             .IsRequired();
         
         builder.HasMany(e => e.Characters)
-            .WithMany(c => c.Expertises)
-            .UsingEntity(j => j.ToTable("character_expertises"));
+            .WithMany(c => c.Skills)
+            .UsingEntity(j => j.ToTable("character_skill"));
     }
 }

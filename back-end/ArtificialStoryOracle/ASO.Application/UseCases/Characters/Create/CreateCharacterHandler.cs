@@ -10,21 +10,21 @@ public sealed class CreateCharacterHandler(
     ICharacterRepository repository, 
     IAncestryQueryService ancestryQueryService,
     IClassQueryService classQueryService,
-    IExpertiseQueryService expertiseQueryService
+    ISkillQueryService skillQueryService
     ) : ICreateCharacterHandler
 {
     private readonly ICharacterRepository _repository = repository;
     private readonly IAncestryQueryService _ancestryQueryService = ancestryQueryService;
     private readonly IClassQueryService _classQueryService = classQueryService;
-    private readonly IExpertiseQueryService _expertiseQueryService = expertiseQueryService;
+    private readonly ISkillQueryService _skillQueryService = skillQueryService;
     
     public async Task<CreateCharacterResponse> HandleAsync(CreateCharacterCommand command)
     {
         var ancestry = await _ancestryQueryService.GetById(command.AncestryId);
-        var classes = await _classQueryService.GetByIds(command.ClassesIds);
-        var expertises = await _expertiseQueryService.GetByIds(command.ExpertisesIds);
+        var classes = await _classQueryService.GetById(command.ClasseId);
+        var expertises = await _skillQueryService.GetByIds(command.SkillsIds);
         
-        var dto = command.ToCreateCharacterDto(ancestry, classes, expertises);
+        var dto = command.ToCreateCharacterDto(ancestry, classes, expertises, command.Modifiers);
         
         var character = Character.Create(dto);
         

@@ -1,4 +1,5 @@
 ﻿using ASO.Application.UseCases.Characters.Create;
+using ASO.Domain.Game.ValueObjects;
 
 namespace ASO.Api.Inputs.Mappers;
 
@@ -8,11 +9,16 @@ public static class CreateCharacterInputMapper
     {
         return new CreateCharacterCommand
         {
-            FirstName = input.FirstName,
-            LastName = input.LastName,
+            Name = input.Name,
             AncestryId = input.AncestryId,
-            ExpertisesIds = input.ExpertisesIds,
-            ClassesIds = input.ClassesIds
+            SkillsIds = input.SkillsIds,
+            ClasseId = input.ClassId,
+            Modifiers = AttributeModifiers.Create(input.Attributes.ModStrength,
+                input.Attributes.ModDexterity,
+                input.Attributes.ModConstitution, 
+                input.Attributes.ModIntelligence,
+                input.Attributes.ModWisdom, 
+                input.Attributes.ModCharisma),
         };
     }
 }
