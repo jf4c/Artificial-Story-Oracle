@@ -10,23 +10,21 @@ public class CharactersMap : IEntityTypeConfiguration<Character>
     {
         builder.ToTable("characters");
         builder.HasKey(c => c.Id);
-        builder.Property(c => c.Id)
-            .HasColumnName("id");
-        
-        builder.Property(c => c.Name)
-            .HasColumnName("name")
-            .IsRequired();
-
-        builder.Property(c => c.TypeCharacter)
-            .HasColumnName("type_character")
-            .IsRequired();
-        builder.Property(c => c.Level)
-            .HasColumnName("level");
+        builder.Property(c => c.Id).HasColumnName("id");
+        builder.Property(c => c.Name).HasColumnName("name").IsRequired();
+        builder.Property(c => c.TypeCharacter).HasColumnName("type_character").IsRequired();
+        builder.Property(c => c.Level).HasColumnName("level");
+        builder.Property(c => c.Backstory).HasColumnName("backstory");
 
         builder.HasOne(c => c.Ancestry)
             .WithMany()
-            .HasForeignKey("ancestry_id")
+            .HasForeignKey(c => c.AncestryId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        builder.HasOne(c => c.Image)
+            .WithMany()
+            .HasForeignKey(c=>c.ImageId)
+            .OnDelete(DeleteBehavior.SetNull);
 
         builder.HasMany(c => c.Skills)
             .WithMany(c => c.Characters)

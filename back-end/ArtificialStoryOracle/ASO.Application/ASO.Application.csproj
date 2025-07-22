@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <Folder Include="UseCases\Games\GetAllGamesByPlayer\" />
+    <Folder Include="UseCases\Images\" />
   </ItemGroup>
 
 </Project>

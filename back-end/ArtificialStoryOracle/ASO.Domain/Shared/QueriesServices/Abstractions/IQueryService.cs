@@ -1,5 +1,5 @@
 ﻿using ASO.Domain.Shared.Entities;
 
-namespace ASO.Application.Abstractions.Shared;
+namespace ASO.Domain.Shared.QueriesServices.Abstractions;
 
 public interface IQueryService<TEntity> where TEntity : Entity;

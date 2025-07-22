@@ -35,6 +35,6 @@ public class CharacterController(
     {
         var query = new GetAllCharactersQuery();
         var response = await _getAllCharactersHandler.Handle(query);
-        return Ok(new List<string> { "Character1", "Character2" });
+        return Ok(response);
     }
 }

@@ -60,8 +60,15 @@ namespace ASO.Infra.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
+                    b.Property<Guid>("AncestryId")
+                        .HasColumnType("uuid");
+
                     b.Property<string>("Backstory")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("backstory");
+
+                    b.Property<Guid?>("ImageId")
+                        .HasColumnType("uuid");
 
                     b.Property<int>("Level")
                         .HasColumnType("integer")
@@ -76,12 +83,11 @@ namespace ASO.Infra.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("type_character");
 
-                    b.Property<Guid>("ancestry_id")
-                        .HasColumnType("uuid");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("ancestry_id");
+                    b.HasIndex("AncestryId");
+
+                    b.HasIndex("ImageId");
 
                     b.ToTable("characters", (string)null);
                 });
@@ -106,6 +112,32 @@ namespace ASO.Infra.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("classes", (string)null);
+                });
+
+            modelBuilder.Entity("ASO.Domain.Game.Entities.Image", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text")
+                        .HasColumnName("description");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("name");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("url");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("images", (string)null);
                 });
 
             modelBuilder.Entity("ASO.Domain.Game.Entities.Skill", b =>
@@ -172,9 +204,14 @@ namespace ASO.Infra.Migrations
                 {
                     b.HasOne("ASO.Domain.Game.Entities.Ancestry", "Ancestry")
                         .WithMany()
-                        .HasForeignKey("ancestry_id")
+                        .HasForeignKey("AncestryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("ASO.Domain.Game.Entities.Image", "Image")
+                        .WithMany()
+                        .HasForeignKey("ImageId")
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.OwnsOne("ASO.Domain.Game.ValueObjects.AttributeModifiers", "Modifiers", b1 =>
                         {
@@ -214,6 +251,8 @@ namespace ASO.Infra.Migrations
                         });
 
                     b.Navigation("Ancestry");
+
+                    b.Navigation("Image");
 
                     b.Navigation("Modifiers")
                         .IsRequired();

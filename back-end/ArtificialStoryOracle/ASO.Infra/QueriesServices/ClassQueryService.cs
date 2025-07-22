@@ -11,7 +11,8 @@ public class ClassQueryService(AppDbContext context) : IClassQueryService
     
     public async Task<Class> GetById(Guid id)
     {
-        var @class = await _context.Classes.FirstOrDefaultAsync(x => x.Id == id);
+        var @class = await _context.Classes
+            .FirstOrDefaultAsync(x => x.Id == id);
         
         if (@class == null)
             throw new Exception($"Class with id {id} not found");
@@ -21,7 +22,9 @@ public class ClassQueryService(AppDbContext context) : IClassQueryService
 
     public async Task<List<Class>> GetByIds(List<Guid> ids)
     {
-        var classes = await _context.Classes.Where(x => ids.Contains(x.Id)).ToListAsync();
+        var classes = await _context.Classes
+            .Where(x => ids.Contains(x.Id))
+            .ToListAsync();
         
         if (classes == null)
             throw new Exception("No classes found");
@@ -31,6 +34,8 @@ public class ClassQueryService(AppDbContext context) : IClassQueryService
 
     public async Task<List<Class>> GetAll()
     {
-        return await _context.Classes.AsNoTracking().ToListAsync();
+        return await _context.Classes
+            .AsNoTracking()
+            .ToListAsync();
     }
 }

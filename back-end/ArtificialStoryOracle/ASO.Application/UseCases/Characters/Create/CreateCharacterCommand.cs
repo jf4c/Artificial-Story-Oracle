@@ -10,5 +10,6 @@ public sealed record CreateCharacterCommand : ICommand
     public List<Guid> SkillsIds { get; set; } = new();
     public Guid ClasseId { get; set; } = Guid.Empty;
     public string Backstory { get; set; } = string.Empty;
+    public Guid ImageId { get; set; } = Guid.Empty;
     public AttributeModifiers Modifiers { get; set; } = null!;
 }

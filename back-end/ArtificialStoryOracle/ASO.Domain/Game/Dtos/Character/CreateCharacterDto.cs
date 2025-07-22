@@ -11,4 +11,5 @@ public sealed record CreateCharacterDto
     public Class Classes { get; set; } = null!;
     public AttributeModifiers Modifiers { get; set; } = null!;
     public string Backstory { get; set; } = null!; 
+    public Image? Image { get; set; } = null!;
 }

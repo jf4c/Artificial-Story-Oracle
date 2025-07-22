@@ -22,7 +22,7 @@ public static class CharacterMapper
         Ancestry ancestry,
         Class classe,
         List<Skill> skills, 
-        AttributeModifiers modifiers)
+        Image image)
     {
         return new CreateCharacterDto
         {
@@ -30,7 +30,9 @@ public static class CharacterMapper
             Ancestry = ancestry,
             Skills = skills,
             Classes = classe,
-            Modifiers = modifiers
+            Modifiers = command.Modifiers,
+            Image = image
+            
         };
     }
 }

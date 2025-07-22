@@ -13,12 +13,14 @@ public static class CreateCharacterInputMapper
             AncestryId = input.AncestryId,
             SkillsIds = input.SkillsIds,
             ClasseId = input.ClassId,
-            Modifiers = AttributeModifiers.Create(input.Attributes.ModStrength,
-                input.Attributes.ModDexterity,
-                input.Attributes.ModConstitution, 
-                input.Attributes.ModIntelligence,
-                input.Attributes.ModWisdom, 
-                input.Attributes.ModCharisma),
+            Modifiers = AttributeModifiers.Create(input.Modifiers.ModStrength,
+                input.Modifiers.ModDexterity,
+                input.Modifiers.ModConstitution, 
+                input.Modifiers.ModIntelligence,
+                input.Modifiers.ModWisdom, 
+                input.Modifiers.ModCharisma),
+            Backstory = input.Backstory,
+            ImageId = input.ImageId
         };
     }
 }

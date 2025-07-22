@@ -18,17 +18,24 @@ public class Character : Entity, IAggragateRoot
         Ancestry = null!;
         Classes = new();
         Skills = new();
+        Backstory = null;
+        Image = null!;
+        ImageId = null!;
+        AncestryId = Guid.Empty;
     }
 
     private Character(string name, Ancestry ancestry, List<Skill> skills, Class classe,
-        AttributeModifiers modifiers, string? backstory)
+        AttributeModifiers modifiers, string? backstory, Image image)
     {
         Name = name;
-        Ancestry = ancestry;
+        // Ancestry = ancestry;
         Classes = [classe];
         Skills = skills;
         Modifiers = modifiers;
         Backstory = backstory;
+        // Image = image;
+        ImageId = image.Id;
+        AncestryId = ancestry.Id;
         InitLevel();
     }
 
@@ -45,18 +52,25 @@ public class Character : Entity, IAggragateRoot
         if (dto.Ancestry == null)
             throw new ArgumentException("Ancestry cannot be null.", nameof(dto.Ancestry));
 
+        if(dto.Image == null)
+            throw new ArgumentException("Image cannot be null.", nameof(dto.Image));
+            
+        
         return new Character(dto.Name, dto.Ancestry, dto.Skills, dto.Classes, dto.Modifiers,
-            dto.Backstory);
+            dto.Backstory, dto.Image);
     }
 
     public string Name { get; }
     public TypeCharacter TypeCharacter { get; } = TypeCharacter.Player;
     public Ancestry Ancestry { get; }
+    public Guid AncestryId { get; }
     public List<Class>? Classes { get; }
     public List<Skill>? Skills { get; }
     public AttributeModifiers Modifiers { get; }
     public int Level { get; set; }
-    public string? Backstory { get; set; }
+    public string? Backstory { get; }
+    public Image? Image { get; }
+    public Guid? ImageId { get; }
 
     private void InitLevel()
     {

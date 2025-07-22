@@ -42,6 +42,20 @@ namespace ASO.Infra.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "images",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    name = table.Column<string>(type: "text", nullable: false),
+                    url = table.Column<string>(type: "text", nullable: false),
+                    description = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_images", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Skills",
                 columns: table => new
                 {
@@ -63,7 +77,7 @@ namespace ASO.Infra.Migrations
                     id = table.Column<Guid>(type: "uuid", nullable: false),
                     name = table.Column<string>(type: "text", nullable: false),
                     type_character = table.Column<int>(type: "integer", nullable: false),
-                    ancestry_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    AncestryId = table.Column<Guid>(type: "uuid", nullable: false),
                     mod_strength = table.Column<int>(type: "integer", nullable: false),
                     mod_dexterity = table.Column<int>(type: "integer", nullable: false),
                     mod_constitution = table.Column<int>(type: "integer", nullable: false),
@@ -71,17 +85,24 @@ namespace ASO.Infra.Migrations
                     mod_wisdom = table.Column<int>(type: "integer", nullable: false),
                     mod_charisma = table.Column<int>(type: "integer", nullable: false),
                     level = table.Column<int>(type: "integer", nullable: false),
-                    Backstory = table.Column<string>(type: "text", nullable: true)
+                    backstory = table.Column<string>(type: "text", nullable: true),
+                    ImageId = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_characters", x => x.id);
                     table.ForeignKey(
-                        name: "FK_characters_ancestries_ancestry_id",
-                        column: x => x.ancestry_id,
+                        name: "FK_characters_ancestries_AncestryId",
+                        column: x => x.AncestryId,
                         principalTable: "ancestries",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_characters_images_ImageId",
+                        column: x => x.ImageId,
+                        principalTable: "images",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.SetNull);
                 });
 
             migrationBuilder.CreateTable(
@@ -138,9 +159,14 @@ namespace ASO.Infra.Migrations
                 column: "character_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_characters_ancestry_id",
+                name: "IX_characters_AncestryId",
                 table: "characters",
-                column: "ancestry_id");
+                column: "AncestryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_characters_ImageId",
+                table: "characters",
+                column: "ImageId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_characters_classes_character_id",
@@ -168,6 +194,9 @@ namespace ASO.Infra.Migrations
 
             migrationBuilder.DropTable(
                 name: "ancestries");
+
+            migrationBuilder.DropTable(
+                name: "images");
         }
     }
 }

@@ -12,11 +12,12 @@ public sealed record CreateCharacterInput
     public List<Guid> SkillsIds { get; set; } = new();
     public Guid ClassId { get; set; } = Guid.Empty;
     public string Backstory { get; set; } = string.Empty;
-    public Attributes Attributes { get; set; } = null!;
+    public ModifiersInput Modifiers { get; set; } = null!;
     public Guid? CampaignId { get; set; } = Guid.Empty;
+    public Guid ImageId { get; set; } = Guid.Empty;
 }
 
-public record Attributes
+public record ModifiersInput
 {
     public int ModStrength { get; set; }
     public int ModDexterity { get; set; }

@@ -2,11 +2,13 @@ using ASO.Api.Middleware;
 using ASO.Application.Abstractions.UseCase.Ancestry;
 using ASO.Application.Abstractions.UseCase.Characters;
 using ASO.Application.Abstractions.UseCase.Classes;
+using ASO.Application.Abstractions.UseCase.Images;
 using ASO.Application.Abstractions.UseCase.Skills;
 using ASO.Application.UseCases.Ancestry.GetAllAncestry;
 using ASO.Application.UseCases.Characters.Create;
 using ASO.Application.UseCases.Characters.GetAll;
 using ASO.Application.UseCases.Classes.GetAll;
+using ASO.Application.UseCases.Images.GetAll;
 using ASO.Application.UseCases.Skills.GetAllSkills;
 using ASO.Domain.Game.QueriesServices;
 using ASO.Domain.Game.Repositories.Abstractions;
@@ -90,11 +92,14 @@ builder.Services.AddScoped<IGetAllAncestryHandler, GetAllAncestryHandler>();
 builder.Services.AddScoped<IAncestryQueryService, AncestryQueryService>();
 builder.Services.AddScoped<IClassQueryService, ClassQueryService>();
 builder.Services.AddScoped<ISkillQueryService, SkillQueryService>();
+builder.Services.AddScoped<IImageQueryService, ImageQueryService>();
+
 builder.Services.AddScoped<ICreateCharacterHandler, CreateCharacterHandler>();
 builder.Services.AddScoped<ICharacterRepository, CharacterRepository>();
 builder.Services.AddScoped<IGetAllCharactersHandler, GetAllCharactersHandler>();
 builder.Services.AddScoped<IGetAllClassesHandler, GetAllClassesHandler>();
 builder.Services.AddScoped<IGetAllSkillsHandler, GetAllSkillsHandler>();
+builder.Services.AddScoped<IGetAllImagesHandler, GetAllImagesHandler>();
 
 builder.Services.AddEndpointsApiExplorer();
 
@@ -114,6 +119,7 @@ using (var scope = app.Services.CreateScope())
     AncestrySeed.Seed(context);
     SkillSeed.Seed(context);
     ClassSeed.Seed(context);
+    ImageSeed.Seed(context);
 }
 
 // Adicionar middleware de tratamento de exceções no início do pipeline

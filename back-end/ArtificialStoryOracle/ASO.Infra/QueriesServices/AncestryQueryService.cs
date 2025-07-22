@@ -12,7 +12,9 @@ public class AncestryQueryService(AppDbContext context) : IAncestryQueryService
     
     public async Task<IEnumerable<Ancestry>>  GetAll()
     {
-        var ancestries = await _context.Ancestries.ToListAsync();
+        var ancestries = await _context.Ancestries
+            .AsNoTracking()
+            .ToListAsync();
         
         if (ancestries.Count == 0)
             throw new AncestriesNotFoundException();
@@ -25,7 +27,8 @@ public class AncestryQueryService(AppDbContext context) : IAncestryQueryService
         if (id == Guid.Empty)
             throw new ValidationException("O ID da ancestralidade não pode ser vazio.");
         
-        var ancestry = await _context.Ancestries.FirstOrDefaultAsync(x => x.Id == id);
+        var ancestry = await _context.Ancestries
+            .FirstOrDefaultAsync(x => x.Id == id);
         
         if (ancestry == null)
             throw new AncestriesNotFoundException(id);

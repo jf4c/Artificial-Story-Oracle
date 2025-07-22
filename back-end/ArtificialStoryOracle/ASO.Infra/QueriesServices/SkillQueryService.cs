@@ -12,7 +12,9 @@ public class SkillQueryService(AppDbContext context) : ISkillQueryService
     
     public async Task<List<Skill>> GetAll()
     {
-        var expertises = await _context.Skill.ToListAsync();
+        var expertises = await _context.Skill
+            .AsNoTracking()
+            .ToListAsync();
         
         if (expertises == null || expertises.Count == 0)
             throw new SkillsNotFoundException();
@@ -21,7 +23,9 @@ public class SkillQueryService(AppDbContext context) : ISkillQueryService
     }
     public async Task<Skill> GetById(Guid id)
     {
-        var expertise = await _context.Skill.FirstOrDefaultAsync(x => x.Id == id);
+        var expertise = await _context.Skill
+            .AsNoTracking()
+            .FirstOrDefaultAsync(x => x.Id == id);
         
         if (expertise == null)
             throw new Exception($"Expertise with id {id} not found");
@@ -31,7 +35,9 @@ public class SkillQueryService(AppDbContext context) : ISkillQueryService
 
     public async Task<List<Skill>> GetByIds(List<Guid> ids)
     {
-        var expertises = await _context.Skill.Where(x => ids.Contains(x.Id)).ToListAsync();
+        var expertises = await _context.Skill
+            .Where(x => ids.Contains(x.Id))
+            .ToListAsync();
         
         if (expertises == null)
             throw new Exception("No expertises found");
