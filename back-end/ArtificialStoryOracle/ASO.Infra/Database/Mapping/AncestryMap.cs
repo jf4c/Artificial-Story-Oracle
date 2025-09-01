@@ -27,6 +27,8 @@ public class AncestryMap : IEntityTypeConfiguration<Ancestry>
         
         builder.Property(a => a.Displacement)
             .HasColumnName("displacement")
-            .IsRequired(); 
+            .IsRequired();
+        
+        builder.ConfigureTracker();
     }
 }

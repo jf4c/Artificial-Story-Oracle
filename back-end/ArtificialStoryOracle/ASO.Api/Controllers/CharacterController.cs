@@ -31,10 +31,10 @@ public class CharacterController(
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAllCharacters()
+    public async Task<IActionResult> GetAllCharacters([FromQuery] GetAllCharacterQuery query)
     {
-        var query = new GetAllCharactersQuery();
-        var response = await _getAllCharactersHandler.Handle(query);
+        var filter = query.ToFilter();
+        var response = await _getAllCharactersHandler.Handle(filter);
         return Ok(response);
     }
 }

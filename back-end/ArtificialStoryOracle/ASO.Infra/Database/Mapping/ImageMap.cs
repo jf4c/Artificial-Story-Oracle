@@ -21,5 +21,7 @@ public class ImageMap : IEntityTypeConfiguration<Image>
         builder.Property(i => i.Url)
             .HasColumnName("url")
             .IsRequired();
+        
+        builder.ConfigureTracker();
     }
 }

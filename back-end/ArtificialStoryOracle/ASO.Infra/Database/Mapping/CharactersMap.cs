@@ -15,7 +15,7 @@ public class CharactersMap : IEntityTypeConfiguration<Character>
         builder.Property(c => c.TypeCharacter).HasColumnName("type_character").IsRequired();
         builder.Property(c => c.Level).HasColumnName("level");
         builder.Property(c => c.Backstory).HasColumnName("backstory");
-
+        
         builder.HasOne(c => c.Ancestry)
             .WithMany()
             .HasForeignKey(c => c.AncestryId)
@@ -68,5 +68,7 @@ public class CharactersMap : IEntityTypeConfiguration<Character>
                 .HasColumnName("mod_charisma")
                 .IsRequired();
         });
+        
+        builder.ConfigureTracker();
     }
 }

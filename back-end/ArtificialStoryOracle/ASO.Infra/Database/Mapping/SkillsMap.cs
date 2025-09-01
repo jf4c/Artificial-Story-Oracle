@@ -33,5 +33,7 @@ public class SkillsMap : IEntityTypeConfiguration<Skill>
         builder.HasMany(e => e.Characters)
             .WithMany(c => c.Skills)
             .UsingEntity(j => j.ToTable("character_skill"));
+        
+        builder.ConfigureTracker();
     }
 }

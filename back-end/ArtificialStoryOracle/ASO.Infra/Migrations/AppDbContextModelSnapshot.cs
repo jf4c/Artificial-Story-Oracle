@@ -200,6 +200,33 @@ namespace ASO.Infra.Migrations
                     b.ToTable("character_skill", (string)null);
                 });
 
+            modelBuilder.Entity("ASO.Domain.Game.Entities.Ancestry", b =>
+                {
+                    b.OwnsOne("ASO.Domain.Shared.ValueObjects.Tracker", "Tracker", b1 =>
+                        {
+                            b1.Property<Guid>("AncestryId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<DateTime>("CreatedAtUtc")
+                                .HasColumnType("timestamp with time zone")
+                                .HasColumnName("created_at_utc");
+
+                            b1.Property<DateTime>("UpdatedAtUtc")
+                                .HasColumnType("timestamp with time zone")
+                                .HasColumnName("updated_at_utc");
+
+                            b1.HasKey("AncestryId");
+
+                            b1.ToTable("ancestries");
+
+                            b1.WithOwner()
+                                .HasForeignKey("AncestryId");
+                        });
+
+                    b.Navigation("Tracker")
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("ASO.Domain.Game.Entities.Character", b =>
                 {
                     b.HasOne("ASO.Domain.Game.Entities.Ancestry", "Ancestry")
@@ -212,6 +239,27 @@ namespace ASO.Infra.Migrations
                         .WithMany()
                         .HasForeignKey("ImageId")
                         .OnDelete(DeleteBehavior.SetNull);
+
+                    b.OwnsOne("ASO.Domain.Shared.ValueObjects.Tracker", "Tracker", b1 =>
+                        {
+                            b1.Property<Guid>("CharacterId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<DateTime>("CreatedAtUtc")
+                                .HasColumnType("timestamp with time zone")
+                                .HasColumnName("created_at_utc");
+
+                            b1.Property<DateTime>("UpdatedAtUtc")
+                                .HasColumnType("timestamp with time zone")
+                                .HasColumnName("updated_at_utc");
+
+                            b1.HasKey("CharacterId");
+
+                            b1.ToTable("characters");
+
+                            b1.WithOwner()
+                                .HasForeignKey("CharacterId");
+                        });
 
                     b.OwnsOne("ASO.Domain.Game.ValueObjects.AttributeModifiers", "Modifiers", b1 =>
                         {
@@ -256,10 +304,34 @@ namespace ASO.Infra.Migrations
 
                     b.Navigation("Modifiers")
                         .IsRequired();
+
+                    b.Navigation("Tracker")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("ASO.Domain.Game.Entities.Class", b =>
                 {
+                    b.OwnsOne("ASO.Domain.Shared.ValueObjects.Tracker", "Tracker", b1 =>
+                        {
+                            b1.Property<Guid>("ClassId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<DateTime>("CreatedAtUtc")
+                                .HasColumnType("timestamp with time zone")
+                                .HasColumnName("created_at_utc");
+
+                            b1.Property<DateTime>("UpdatedAtUtc")
+                                .HasColumnType("timestamp with time zone")
+                                .HasColumnName("updated_at_utc");
+
+                            b1.HasKey("ClassId");
+
+                            b1.ToTable("classes");
+
+                            b1.WithOwner()
+                                .HasForeignKey("ClassId");
+                        });
+
                     b.OwnsOne("ASO.Domain.Game.ValueObjects.Statistics", "Statistics", b1 =>
                         {
                             b1.Property<Guid>("ClassId")
@@ -282,6 +354,63 @@ namespace ASO.Infra.Migrations
                         });
 
                     b.Navigation("Statistics")
+                        .IsRequired();
+
+                    b.Navigation("Tracker")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ASO.Domain.Game.Entities.Image", b =>
+                {
+                    b.OwnsOne("ASO.Domain.Shared.ValueObjects.Tracker", "Tracker", b1 =>
+                        {
+                            b1.Property<Guid>("ImageId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<DateTime>("CreatedAtUtc")
+                                .HasColumnType("timestamp with time zone")
+                                .HasColumnName("created_at_utc");
+
+                            b1.Property<DateTime>("UpdatedAtUtc")
+                                .HasColumnType("timestamp with time zone")
+                                .HasColumnName("updated_at_utc");
+
+                            b1.HasKey("ImageId");
+
+                            b1.ToTable("images");
+
+                            b1.WithOwner()
+                                .HasForeignKey("ImageId");
+                        });
+
+                    b.Navigation("Tracker")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ASO.Domain.Game.Entities.Skill", b =>
+                {
+                    b.OwnsOne("ASO.Domain.Shared.ValueObjects.Tracker", "Tracker", b1 =>
+                        {
+                            b1.Property<Guid>("SkillId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<DateTime>("CreatedAtUtc")
+                                .HasColumnType("timestamp with time zone")
+                                .HasColumnName("created_at_utc");
+
+                            b1.Property<DateTime>("UpdatedAtUtc")
+                                .HasColumnType("timestamp with time zone")
+                                .HasColumnName("updated_at_utc");
+
+                            b1.HasKey("SkillId");
+
+                            b1.ToTable("Skills");
+
+                            b1.WithOwner()
+                                .HasForeignKey("SkillId");
+                        });
+
+                    b.Navigation("Tracker")
                         .IsRequired();
                 });
 

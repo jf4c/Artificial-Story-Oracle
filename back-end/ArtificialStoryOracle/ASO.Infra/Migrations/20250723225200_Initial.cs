@@ -19,7 +19,9 @@ namespace ASO.Infra.Migrations
                     name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     backstory = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
                     size = table.Column<float>(type: "real", nullable: false),
-                    displacement = table.Column<int>(type: "integer", nullable: false)
+                    displacement = table.Column<int>(type: "integer", nullable: false),
+                    created_at_utc = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    updated_at_utc = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -34,7 +36,9 @@ namespace ASO.Infra.Migrations
                     name = table.Column<string>(type: "text", nullable: false),
                     description = table.Column<string>(type: "text", nullable: false),
                     init_mana_points = table.Column<int>(type: "integer", nullable: false),
-                    init_health_points = table.Column<int>(type: "integer", nullable: false)
+                    init_health_points = table.Column<int>(type: "integer", nullable: false),
+                    created_at_utc = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    updated_at_utc = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -48,7 +52,9 @@ namespace ASO.Infra.Migrations
                     id = table.Column<Guid>(type: "uuid", nullable: false),
                     name = table.Column<string>(type: "text", nullable: false),
                     url = table.Column<string>(type: "text", nullable: false),
-                    description = table.Column<string>(type: "text", nullable: true)
+                    description = table.Column<string>(type: "text", nullable: true),
+                    created_at_utc = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    updated_at_utc = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -63,7 +69,9 @@ namespace ASO.Infra.Migrations
                     name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     key_attributes = table.Column<int>(type: "integer", nullable: false),
                     trained = table.Column<bool>(type: "boolean", nullable: false),
-                    armor_penalty = table.Column<bool>(type: "boolean", nullable: false)
+                    armor_penalty = table.Column<bool>(type: "boolean", nullable: false),
+                    created_at_utc = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    updated_at_utc = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -86,7 +94,9 @@ namespace ASO.Infra.Migrations
                     mod_charisma = table.Column<int>(type: "integer", nullable: false),
                     level = table.Column<int>(type: "integer", nullable: false),
                     backstory = table.Column<string>(type: "text", nullable: true),
-                    ImageId = table.Column<Guid>(type: "uuid", nullable: true)
+                    ImageId = table.Column<Guid>(type: "uuid", nullable: true),
+                    created_at_utc = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    updated_at_utc = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {

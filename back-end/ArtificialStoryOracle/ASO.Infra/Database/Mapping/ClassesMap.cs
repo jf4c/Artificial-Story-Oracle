@@ -27,5 +27,7 @@ public class ClassesMap : IEntityTypeConfiguration<Class>
                 .HasColumnName("init_mana_points")
                 .IsRequired();
         });
+        
+        builder.ConfigureTracker();
     }
 }

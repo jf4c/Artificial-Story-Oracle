@@ -16,8 +16,12 @@ public class CharacterRepository(AppDbContext context) : ICharacterRepository
         return character;
     }
 
-    public Task<List<Character>> GetAll()
+    public IQueryable<Character> GetAll()
     {
-        return _context.Characters.AsNoTracking().ToListAsync();
+        return _context.Characters
+            .AsNoTracking()
+            .Include(c => c.Image)
+            .Include(c => c.Ancestry)
+            .Include(c => c.Classes);
     }
 }
