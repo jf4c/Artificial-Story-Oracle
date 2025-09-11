@@ -1,6 +1,6 @@
 ﻿using ASO.Application.Abstractions.UseCase.Skills;
 using ASO.Application.Mappers;
-using ASO.Domain.Game.QueriesServices;
+using ASO.Domain.Game.Abstractions.QueriesServices;
 
 namespace ASO.Application.UseCases.Skills.GetAllSkills;
 

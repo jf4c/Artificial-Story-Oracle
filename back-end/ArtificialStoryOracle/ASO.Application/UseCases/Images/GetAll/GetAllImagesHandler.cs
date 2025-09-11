@@ -1,6 +1,6 @@
 ﻿using ASO.Application.Abstractions.UseCase.Images;
 using ASO.Application.Mappers;
-using ASO.Domain.Game.QueriesServices;
+using ASO.Domain.Game.Abstractions.QueriesServices;
 
 namespace ASO.Application.UseCases.Images.GetAll;
 

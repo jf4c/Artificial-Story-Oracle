@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Abstractions\UseCase\IGenerateCharacterBackstory\" />
     <Folder Include="UseCases\Games\GetAllGamesByPlayer\" />
     <Folder Include="UseCases\Images\" />
   </ItemGroup>

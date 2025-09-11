@@ -1,5 +1,5 @@
-﻿using ASO.Domain.Game.Entities;
-using ASO.Domain.Game.Repositories.Abstractions;
+﻿using ASO.Domain.Game.Abstractions.Repositories;
+using ASO.Domain.Game.Entities;
 using ASO.Infra.Database;
 using Microsoft.EntityFrameworkCore;
 

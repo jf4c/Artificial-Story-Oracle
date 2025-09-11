@@ -1,8 +1,8 @@
 ﻿using ASO.Application.Abstractions.UseCase.Characters;
 using ASO.Application.Mappers;
+using ASO.Domain.Game.Abstractions.QueriesServices;
+using ASO.Domain.Game.Abstractions.Repositories;
 using ASO.Domain.Game.Entities;
-using ASO.Domain.Game.QueriesServices;
-using ASO.Domain.Game.Repositories.Abstractions;
 
 namespace ASO.Application.UseCases.Characters.Create;
 

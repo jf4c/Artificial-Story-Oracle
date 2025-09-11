@@ -3,6 +3,7 @@ using System;
 using ASO.Infra.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ASO.Infra.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250903195242_Created_Table_generated_AI")]
+    partial class Created_Table_generated_AI
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -224,33 +227,6 @@ namespace ASO.Infra.Migrations
                     b.HasIndex("character_id");
 
                     b.ToTable("character_skill", (string)null);
-                });
-
-            modelBuilder.Entity("ASO.Domain.AI.Entities.GeneratedAIContent", b =>
-                {
-                    b.OwnsOne("ASO.Domain.Shared.ValueObjects.Tracker", "Tracker", b1 =>
-                        {
-                            b1.Property<Guid>("GeneratedAIContentId")
-                                .HasColumnType("uuid");
-
-                            b1.Property<DateTime>("CreatedAtUtc")
-                                .HasColumnType("timestamp with time zone")
-                                .HasColumnName("created_at_utc");
-
-                            b1.Property<DateTime>("UpdatedAtUtc")
-                                .HasColumnType("timestamp with time zone")
-                                .HasColumnName("updated_at_utc");
-
-                            b1.HasKey("GeneratedAIContentId");
-
-                            b1.ToTable("generated_AI_content");
-
-                            b1.WithOwner()
-                                .HasForeignKey("GeneratedAIContentId");
-                        });
-
-                    b.Navigation("Tracker")
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("ASO.Domain.Game.Entities.Ancestry", b =>

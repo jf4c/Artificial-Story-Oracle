@@ -3,8 +3,8 @@ using ASO.Application.Builders;
 using ASO.Application.Extensions;
 using ASO.Application.Mappers;
 using ASO.Application.Pagination;
+using ASO.Domain.Game.Abstractions.Repositories;
 using ASO.Domain.Game.Entities;
-using ASO.Domain.Game.Repositories.Abstractions;
 
 namespace ASO.Application.UseCases.Characters.GetAll;
 

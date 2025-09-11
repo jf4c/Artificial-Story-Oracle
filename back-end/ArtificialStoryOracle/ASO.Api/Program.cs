@@ -3,17 +3,22 @@ using ASO.Application.Abstractions.UseCase.Ancestry;
 using ASO.Application.Abstractions.UseCase.Characters;
 using ASO.Application.Abstractions.UseCase.Classes;
 using ASO.Application.Abstractions.UseCase.Images;
+using ASO.Application.Abstractions.UseCase.Oracle;
 using ASO.Application.Abstractions.UseCase.Skills;
 using ASO.Application.UseCases.Ancestry.GetAllAncestry;
 using ASO.Application.UseCases.Characters.Create;
 using ASO.Application.UseCases.Characters.GetAll;
 using ASO.Application.UseCases.Classes.GetAll;
 using ASO.Application.UseCases.Images.GetAll;
+using ASO.Application.UseCases.Oracle;
 using ASO.Application.UseCases.Skills.GetAllSkills;
-using ASO.Domain.Game.QueriesServices;
-using ASO.Domain.Game.Repositories.Abstractions;
+using ASO.Domain.AI.Abstractions.Repositories;
+using ASO.Domain.Game.Abstractions.ExternalServices;
+using ASO.Domain.Game.Abstractions.QueriesServices;
+using ASO.Domain.Game.Abstractions.Repositories;
 using ASO.Infra.Database;
 using ASO.Infra.Database.Seeds;
+using ASO.Infra.ExternalServices;
 using ASO.Infra.QueriesServices;
 using ASO.Infra.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -94,12 +99,31 @@ builder.Services.AddScoped<IClassQueryService, ClassQueryService>();
 builder.Services.AddScoped<ISkillQueryService, SkillQueryService>();
 builder.Services.AddScoped<IImageQueryService, ImageQueryService>();
 
-builder.Services.AddScoped<ICreateCharacterHandler, CreateCharacterHandler>();
 builder.Services.AddScoped<ICharacterRepository, CharacterRepository>();
+builder.Services.AddScoped<IGeneratedAIContentRepository, GeneratedAIContentRepository>();
+
+builder.Services.AddScoped<ICreateCharacterHandler, CreateCharacterHandler>();
 builder.Services.AddScoped<IGetAllCharactersHandler, GetAllCharactersHandler>();
 builder.Services.AddScoped<IGetAllClassesHandler, GetAllClassesHandler>();
 builder.Services.AddScoped<IGetAllSkillsHandler, GetAllSkillsHandler>();
 builder.Services.AddScoped<IGetAllImagesHandler, GetAllImagesHandler>();
+
+builder.Services.AddScoped<IGenerateCharacterBackstory, GenerateCharacterBackstory>();
+builder.Services.AddScoped<IGenerateCampaignBackstory, GenerateCampaignBackstory>();
+builder.Services.AddScoped<IGenerateCharactersNames, GenerateCharactersNames>();
+
+
+builder.Services.AddHttpClient<IGeminiApiService, GeminiApiService>((sp, client) =>
+{
+    var config = sp.GetRequiredService<IConfiguration>();
+    var baseUrl = config["ExternalServices:Gemini_API:BaseUrl"]
+                  ?? throw new ArgumentNullException("Base URL for Gemini API is not configured.");
+    var apiKey = config["ExternalServices:Gemini_API:Key"]
+                 ?? throw new ArgumentNullException("API Key for Gemini API is not configured.");
+
+    client.BaseAddress = new Uri(baseUrl);
+    client.DefaultRequestHeaders.Add("X-goog-api-key", apiKey);
+});
 
 builder.Services.AddEndpointsApiExplorer();
 

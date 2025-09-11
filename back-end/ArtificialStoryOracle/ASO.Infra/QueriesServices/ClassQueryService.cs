@@ -1,5 +1,5 @@
-﻿using ASO.Domain.Game.Entities;
-using ASO.Domain.Game.QueriesServices;
+﻿using ASO.Domain.Game.Abstractions.QueriesServices;
+using ASO.Domain.Game.Entities;
 using ASO.Infra.Database;
 using Microsoft.EntityFrameworkCore;
 

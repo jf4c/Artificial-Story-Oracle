@@ -9,7 +9,6 @@ namespace ASO.Domain.Game.Entities;
 public class Player : Entity, IAggragateRoot
 {
     #region Constructors
-    
     private Player()
     {
         Name = null!;
@@ -25,22 +24,17 @@ public class Player : Entity, IAggragateRoot
         NickName = Nickname.Create(nickName);
         TypePlayer = TypePlayer.Player;
     }
-    
     #endregion
-    
-    #region Factory Methods
-    
-    public static Player Create(string firstName, string lastName, string address, string nick) 
-        => new(firstName, lastName, address, nick);
 
+    #region Factory Methods
+    public static Player Create(string firstName, string lastName, string address, string nick)
+        => new(firstName, lastName, address, nick);
     #endregion
 
     #region Proporties
-    
     public Name Name { get; }
     public Email Email { get; }
     public Nickname NickName { get; }
     public TypePlayer TypePlayer { get; }
-    
     #endregion
 }

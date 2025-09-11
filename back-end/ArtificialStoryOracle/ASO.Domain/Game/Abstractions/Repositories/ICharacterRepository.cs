@@ -1,7 +1,7 @@
 ﻿using ASO.Domain.Game.Entities;
 using ASO.Domain.Shared.Repositories.Abstractions;
 
-namespace ASO.Domain.Game.Repositories.Abstractions;
+namespace ASO.Domain.Game.Abstractions.Repositories;
 
 public interface ICharacterRepository : IRepository<Character>
 {

@@ -1,6 +1,6 @@
 ﻿using ASO.Application.UseCases.Characters.GetAll;
+using ASO.Domain.Game.Abstractions.Repositories;
 using ASO.Domain.Game.Entities;
-using ASO.Domain.Game.Repositories.Abstractions;
 
 namespace ASO.Application.Builders;
 
