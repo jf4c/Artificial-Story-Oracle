@@ -15,7 +15,6 @@ public class AncestryController(IGetAllAncestryHandler getAllAncestryHandler) : 
     public async Task<IActionResult> GetAllAncestries()
     {
         var ancestries = await _getAllAncestryHandler.Handle();
-        
         return Ok(ancestries);
     }
 }

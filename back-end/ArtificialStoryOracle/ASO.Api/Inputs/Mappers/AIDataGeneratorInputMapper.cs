@@ -11,6 +11,8 @@ public static class AIDataGeneratorInputMapper
             Name = input.Name,
             Ancestry = input.Ancestry,
             Class = input.Class,
+            Attributes = input.Attributes,
+            Skills = input.Skills,
             Supplements = input.Supplements,
         };
     }

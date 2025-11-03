@@ -12,7 +12,9 @@ public static class AIDataGeneratorMapper
         var content = ContentDto.Generate(
             command.Name, 
             command.Ancestry, 
-            command.Class, 
+            command.Class,
+            command.Attributes,
+            command.Skills,
             command.Supplements);
         
         return new GeminiServiceRequest([content]);

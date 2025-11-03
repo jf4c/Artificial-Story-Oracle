@@ -21,6 +21,8 @@ public class GenerateCharacterBackstory(
             command.Name, 
             command.Ancestry, 
             command.Class,
+            command.Attributes,
+            command.Skills,
             command.Supplements);
         
         var request = command.ToOpenAIServiceRequest();

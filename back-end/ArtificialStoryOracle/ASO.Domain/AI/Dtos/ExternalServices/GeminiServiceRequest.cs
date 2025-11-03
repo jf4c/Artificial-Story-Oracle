@@ -7,10 +7,12 @@ public record ContentDto(List<Part> Parts)
     public static ContentDto Generate(
         string name, 
         string ancestry, 
-        string @class, 
+        string @class,
+        string attributes,
+        string skills,
         string supplements)
     {
-        var content = Part.GenerateUserPrompt(name, ancestry, @class, supplements);
+        var content = Part.GenerateUserPrompt(name, ancestry, @class, attributes, skills ,supplements);
         return new ContentDto(new List<Part> { content });
     }
 }
