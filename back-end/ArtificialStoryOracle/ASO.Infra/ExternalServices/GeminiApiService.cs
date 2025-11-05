@@ -1,4 +1,4 @@
-﻿using System.Net.Http.Json;
+﻿﻿using System.Net.Http.Json;
 using ASO.Domain.AI.Dtos.ExternalServices;
 using ASO.Domain.Game.Abstractions.ExternalServices;
 using Microsoft.Extensions.Configuration;
@@ -29,5 +29,20 @@ public class GeminiApiService(HttpClient httpClient, IConfiguration config) : IG
             throw new Exception("GPT API returned null response");
 
         return gptResponse;
+    }
+    
+    public async Task<GeminiServiceResponse> GenerateCharacterNamesAsync(GeminiServiceRequest request)
+    {
+        var response = await _httpClient.PostAsJsonAsync("v1beta/models/gemini-2.0-flash:generateContent", request);
+        
+        if (!response.IsSuccessStatusCode)
+            throw new Exception($"Erro ao chamar Gemini API: {response.ReasonPhrase}");
+        
+        var geminiResponse = await response.Content.ReadFromJsonAsync<GeminiServiceResponse>();
+        
+        if (geminiResponse == null)
+            throw new Exception("Gemini API retornou resposta nula");
+
+        return geminiResponse;
     }
 }

@@ -2,6 +2,7 @@
 using ASO.Api.Inputs.Mappers;
 using ASO.Application.Abstractions.UseCase.Oracle;
 using ASO.Application.UseCases.Oracle;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ASO.Api.Controllers;
@@ -19,6 +20,7 @@ public class OracleController(
     private readonly IGenerateCampaignBackstory _generateCampaignBackstory = generateCampaignBackstory;
     
     [HttpPost("character-backstory")]
+    [AllowAnonymous]
     public async Task<IActionResult> GenerateCharacterBackstory([FromBody] AIDataGeneratorInput input)
     {
         var command = input.ToCommand();
@@ -28,14 +30,17 @@ public class OracleController(
     }
     
     [HttpGet("character-names")]
-    public async Task<IActionResult> GenerateCharacterNames()
+    [AllowAnonymous]
+    public async Task<IActionResult> GenerateCharacterNames([FromQuery] GenerateCharacterNamesInput input)
     {
-        var names = await _generateCharacterNames.HandleAsync(new AIDataGeneratorCommand());
+        var command = input.ToCommand();
+        var names = await _generateCharacterNames.HandleAsync(command);
         
         return Ok(names);
     }
     
     [HttpGet("campaign-backstory")]
+    [AllowAnonymous]
     public async Task<IActionResult> GenerateCampaignBackstory()
     {
         var backstory = await _generateCampaignBackstory.HandleAsync(new AIDataGeneratorCommand());
