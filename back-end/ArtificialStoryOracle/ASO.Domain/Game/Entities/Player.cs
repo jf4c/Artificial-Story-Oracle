@@ -1,4 +1,4 @@
-﻿﻿﻿using ASO.Domain.Game.Enums;
+﻿﻿﻿﻿using ASO.Domain.Game.Enums;
 using ASO.Domain.Shared.Aggregates.Abstractions;
 using ASO.Domain.Shared.Entities;
 using ASO.Domain.Shared.ValueObjects;
@@ -41,5 +41,8 @@ public class Player : Entity, IAggragateRoot
     
     public ICollection<Friendship> SentFriendRequests { get; } = new List<Friendship>();
     public ICollection<Friendship> ReceivedFriendRequests { get; } = new List<Friendship>();
+    public ICollection<Campaign> CreatedCampaigns { get; } = new List<Campaign>();
+    public ICollection<Campaign> MasteredCampaigns { get; } = new List<Campaign>();
+    public ICollection<CampaignParticipant> CampaignParticipations { get; } = new List<CampaignParticipant>();
     #endregion
 }

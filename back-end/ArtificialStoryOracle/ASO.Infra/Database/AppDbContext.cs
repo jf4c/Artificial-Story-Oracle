@@ -1,4 +1,4 @@
-﻿﻿﻿using ASO.Domain.AI.Entities;
+﻿﻿﻿﻿using ASO.Domain.AI.Entities;
 using ASO.Domain.Game.Entities;
 using ASO.Domain.Identity.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +16,8 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     public DbSet<Player> Players { get; set; } = null!;
     public DbSet<PlayerUser> PlayerUsers { get; set; } = null!;
     public DbSet<Friendship> Friendships { get; set; } = null!;
+    public DbSet<Campaign> Campaigns { get; set; } = null!;
+    public DbSet<CampaignParticipant> CampaignParticipants { get; set; } = null!;
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

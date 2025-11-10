@@ -7,6 +7,15 @@ using ASO.Application.Abstractions.UseCase.Oracle;
 using ASO.Application.Abstractions.UseCase.Players;
 using ASO.Application.Abstractions.UseCase.Skills;
 using ASO.Application.UseCases.Ancestry.GetAllAncestry;
+using ASO.Application.UseCases.Campaigns.Complete;
+using ASO.Application.UseCases.Campaigns.Create;
+using ASO.Application.UseCases.Campaigns.Delete;
+using ASO.Application.UseCases.Campaigns.GetById;
+using ASO.Application.UseCases.Campaigns.GetMyCampaigns;
+using ASO.Application.UseCases.Campaigns.Pause;
+using ASO.Application.UseCases.Campaigns.Resume;
+using ASO.Application.UseCases.Campaigns.Start;
+using ASO.Application.UseCases.Campaigns.Update;
 using ASO.Application.UseCases.Characters.Create;
 using ASO.Application.UseCases.Characters.GetAll;
 using ASO.Application.UseCases.Classes.GetAll;
@@ -134,6 +143,8 @@ builder.Services.AddScoped<IGeneratedAIContentRepository, GeneratedAIContentRepo
 builder.Services.AddScoped<IPlayerRepository, PlayerRepository>();
 builder.Services.AddScoped<IPlayerUserRepository, PlayerUserRepository>();
 builder.Services.AddScoped<IFriendshipRepository, FriendshipRepository>();
+builder.Services.AddScoped<ICampaignRepository, CampaignRepository>();
+builder.Services.AddScoped<ICampaignParticipantRepository, CampaignParticipantRepository>();
 
 builder.Services.AddScoped<ICreateCharacterHandler, CreateCharacterHandler>();
 builder.Services.AddScoped<IGetAllCharactersHandler, GetAllCharactersHandler>();
@@ -152,6 +163,16 @@ builder.Services.AddScoped<GetSentRequestsHandler>();
 builder.Services.AddScoped<GetFriendsHandler>();
 builder.Services.AddScoped<SearchPlayersHandler>();
 builder.Services.AddScoped<GetFriendshipCountsHandler>();
+
+builder.Services.AddScoped<CreateCampaignHandler>();
+builder.Services.AddScoped<GetCampaignByIdHandler>();
+builder.Services.AddScoped<GetMyCampaignsHandler>();
+builder.Services.AddScoped<UpdateCampaignHandler>();
+builder.Services.AddScoped<DeleteCampaignHandler>();
+builder.Services.AddScoped<StartCampaignHandler>();
+builder.Services.AddScoped<PauseCampaignHandler>();
+builder.Services.AddScoped<ResumeCampaignHandler>();
+builder.Services.AddScoped<CompleteCampaignHandler>();
 
 builder.Services.AddScoped<IGenerateCharacterBackstory, GenerateCharacterBackstory>();
 builder.Services.AddScoped<IGenerateCampaignBackstory, GenerateCampaignBackstory>();

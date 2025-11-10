@@ -1,4 +1,4 @@
-﻿using ASO.Domain.Game.Dtos.Character;
+﻿﻿using ASO.Domain.Game.Dtos.Character;
 using ASO.Domain.Game.Enums;
 using ASO.Domain.Game.ValueObjects;
 using ASO.Domain.Shared.Aggregates.Abstractions;
@@ -71,6 +71,8 @@ public class Character : Entity, IAggragateRoot
     public string? Backstory { get; }
     public Image? Image { get; }
     public Guid? ImageId { get; }
+    
+    public ICollection<CampaignParticipant> CampaignParticipations { get; } = new List<CampaignParticipant>();
 
     private void InitLevel()
     {
