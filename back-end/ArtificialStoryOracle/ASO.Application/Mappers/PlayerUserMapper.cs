@@ -1,4 +1,4 @@
-﻿using ASO.Application.UseCases.Players.Create;
+﻿﻿using ASO.Application.UseCases.Players.Create;
 using ASO.Application.UseCases.Players.GetByUserId;
 using ASO.Domain.Game.Entities;
 using ASO.Domain.Identity.Dtos;
@@ -32,7 +32,10 @@ public static class PlayerUserMapper
     {
         return new GetPlayerByUserIdResponse
         {
-            //TODO: Criar resposta
+            Email = player.Email.Address,
+            NickName = player.NickName.Nick,
+            FirstName = player.Name.FirstName,
+            LastName = player.Name.LastName
         };
     }
 }

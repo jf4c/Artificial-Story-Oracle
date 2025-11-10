@@ -4,18 +4,33 @@ using ASO.Application.Abstractions.UseCase.Characters;
 using ASO.Application.Abstractions.UseCase.Classes;
 using ASO.Application.Abstractions.UseCase.Images;
 using ASO.Application.Abstractions.UseCase.Oracle;
+using ASO.Application.Abstractions.UseCase.Players;
 using ASO.Application.Abstractions.UseCase.Skills;
 using ASO.Application.UseCases.Ancestry.GetAllAncestry;
 using ASO.Application.UseCases.Characters.Create;
 using ASO.Application.UseCases.Characters.GetAll;
 using ASO.Application.UseCases.Classes.GetAll;
+using ASO.Application.UseCases.Friendships.AcceptRequest;
+using ASO.Application.UseCases.Friendships.GetCounts;
+using ASO.Application.UseCases.Friendships.GetFriends;
+using ASO.Application.UseCases.Friendships.GetReceivedRequests;
+using ASO.Application.UseCases.Friendships.GetSentRequests;
+using ASO.Application.UseCases.Friendships.Remove;
+using ASO.Application.UseCases.Friendships.RejectRequest;
+using ASO.Application.UseCases.Friendships.SearchPlayers;
+using ASO.Application.UseCases.Friendships.SendRequest;
 using ASO.Application.UseCases.Images.GetAll;
 using ASO.Application.UseCases.Oracle;
+using ASO.Application.UseCases.Players.Create;
+using ASO.Application.UseCases.Players.GetByUserId;
 using ASO.Application.UseCases.Skills.GetAllSkills;
 using ASO.Domain.AI.Abstractions.Repositories;
 using ASO.Domain.Game.Abstractions.ExternalServices;
 using ASO.Domain.Game.Abstractions.QueriesServices;
 using ASO.Domain.Game.Abstractions.Repositories;
+using ASO.Domain.Identity.Repositories.Abstractions;
+using ASO.Domain.Shared.Abstractions;
+using ASO.Infra;
 using ASO.Infra.Database;
 using ASO.Infra.Database.Seeds;
 using ASO.Infra.ExternalServices;
@@ -31,20 +46,24 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddAuthentication("Bearer")
     .AddJwtBearer("Bearer", options =>
     {
-        options.Authority = "http://localhost:8080/realms/teste";
-        options.Audience = "meu-client";
+        options.Authority = "http://localhost:8080/realms/artificial-story-oracle";
+        options.Audience = "account";
         options.RequireHttpsMetadata = false;
 
         options.TokenValidationParameters = new TokenValidationParameters
         {
-            ValidateAudience = true,
+            ValidateAudience = false,
             ValidateIssuer = true,
-            ValidateLifetime = false,
+            ValidateLifetime = true,
             ValidateIssuerSigningKey = true
         };
         options.Events = new JwtBearerEvents
         {
-            OnAuthenticationFailed = context => Task.CompletedTask,
+            OnAuthenticationFailed = context =>
+            {
+                Console.WriteLine($"❌ Auth failed: {context.Exception.Message}");
+                return Task.CompletedTask;
+            },
             OnMessageReceived = context => Task.CompletedTask
         };
     });
@@ -52,14 +71,25 @@ builder.Services.AddAuthentication("Bearer")
 var cnnStr = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<AppDbContext>(x => { x.UseNpgsql(cnnStr); });
 
+// Registrar MediatR para eventos de domínio
+builder.Services.AddMediatR(cfg =>
+{
+    cfg.RegisterServicesFromAssembly(typeof(CreateCharacterHandler).Assembly);
+});
+
+// Registrar UnitOfWork para dispatch de eventos
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAngular",
         policy =>
         {
-            policy.WithOrigins("http://localhost:4200") // permite Angular
+            policy.WithOrigins("http://localhost:4200")
                 .AllowAnyHeader()
-                .AllowAnyMethod();
+                .AllowAnyMethod()
+                .AllowCredentials()
+                .SetIsOriginAllowed(_ => true);
         });
 });
 
@@ -101,12 +131,27 @@ builder.Services.AddScoped<IImageQueryService, ImageQueryService>();
 
 builder.Services.AddScoped<ICharacterRepository, CharacterRepository>();
 builder.Services.AddScoped<IGeneratedAIContentRepository, GeneratedAIContentRepository>();
+builder.Services.AddScoped<IPlayerRepository, PlayerRepository>();
+builder.Services.AddScoped<IPlayerUserRepository, PlayerUserRepository>();
+builder.Services.AddScoped<IFriendshipRepository, FriendshipRepository>();
 
 builder.Services.AddScoped<ICreateCharacterHandler, CreateCharacterHandler>();
 builder.Services.AddScoped<IGetAllCharactersHandler, GetAllCharactersHandler>();
 builder.Services.AddScoped<IGetAllClassesHandler, GetAllClassesHandler>();
 builder.Services.AddScoped<IGetAllSkillsHandler, GetAllSkillsHandler>();
 builder.Services.AddScoped<IGetAllImagesHandler, GetAllImagesHandler>();
+builder.Services.AddScoped<ICreatePlayerHandler, CreatePlayerHandler>();
+builder.Services.AddScoped<IGetPlayerByUserIdHandler, GetPlayerByUserIdHandler>();
+
+builder.Services.AddScoped<SendFriendRequestHandler>();
+builder.Services.AddScoped<AcceptFriendRequestHandler>();
+builder.Services.AddScoped<RejectFriendRequestHandler>();
+builder.Services.AddScoped<RemoveFriendshipHandler>();
+builder.Services.AddScoped<GetReceivedRequestsHandler>();
+builder.Services.AddScoped<GetSentRequestsHandler>();
+builder.Services.AddScoped<GetFriendsHandler>();
+builder.Services.AddScoped<SearchPlayersHandler>();
+builder.Services.AddScoped<GetFriendshipCountsHandler>();
 
 builder.Services.AddScoped<IGenerateCharacterBackstory, GenerateCharacterBackstory>();
 builder.Services.AddScoped<IGenerateCampaignBackstory, GenerateCampaignBackstory>();
@@ -158,11 +203,9 @@ if (app.Environment.IsDevelopment())
         c.RoutePrefix = string.Empty;
     });
 }
-
+app.UseCors("AllowAngular");
 app.UseAuthentication();
 app.UseAuthorization();
-
-app.UseCors("AllowAngular");
 
 // TODO: Adicionar middleware de tratamento de exceções quando for implementado
 app.UseMiddleware<ExceptionHandlingMiddleware>();

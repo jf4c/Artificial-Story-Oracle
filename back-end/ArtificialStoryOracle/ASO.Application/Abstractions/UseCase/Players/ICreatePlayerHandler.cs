@@ -3,4 +3,4 @@ using ASO.Application.UseCases.Players.Create;
 
 namespace ASO.Application.Abstractions.UseCase.Players;
 
-public interface ICreatePlayerHandler : ICommandHandler<CreatePlayerCommand, CreatePlayerResponse>;
+public interface ICreatePlayerHandler : ICommandHandlerAsync<CreatePlayerCommand, CreatePlayerResponse>;

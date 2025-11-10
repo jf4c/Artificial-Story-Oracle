@@ -13,34 +13,54 @@ public class PlayerController(
     IGetPlayerByUserIdHandler getPlayerByUserIdHandler) : ControllerBase
 {
     private readonly ICreatePlayerHandler _createPlayerHandler = createPlayerHandler;
+    private readonly IGetPlayerByUserIdHandler _getPlayerByUserIdHandler = getPlayerByUserIdHandler;
 
     [HttpGet]
     [Authorize]
-    public IActionResult GetPlayer(Guid input)
+    public async Task<IActionResult> GetPlayer()
     {
-        var query = new GetPlayerByUserIdQuery(input);
+        var keycloakUserId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value
+                          ?? User.FindFirst("sub")?.Value
+                          ?? throw new ArgumentException("Claim de user id não encontrada no token.");
 
-        var player = getPlayerByUserIdHandler.Handle(query);
+        if (!Guid.TryParse(keycloakUserId, out var userId))
+        {
+            return BadRequest(new { message = "User ID inválido." });
+        }
+
+        var query = new GetPlayerByUserIdQuery(userId);
+        var player = await _getPlayerByUserIdHandler.Handle(query);
+
+        if (player == null)
+        {
+            return NotFound(new { message = "Player não encontrado." });
+        }
 
         return Ok(player);
     }
 
     [HttpPost]
     [Authorize]
-    public IActionResult CreatePlayer(string nickName)
+    public async Task<IActionResult> CreatePlayer()
     {
-        var userId = User.FindFirst("sub")!.Value;
-        var email = User.FindFirst("email")!.Value;
-        var name = User.FindFirst("name")!.Value;
+        var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value
+                          ?? User.FindFirst("sub")?.Value
+                          ?? throw new ArgumentException("Claim de user id não encontrada no token.");
 
-        var command = new CreatePlayerCommand(name, email, nickName, userId);
+        var email = User.FindFirst(System.Security.Claims.ClaimTypes.Email)?.Value 
+                    ?? User.FindFirst("email")?.Value 
+                    ?? string.Empty;
+        
+        var name = User.FindFirst(System.Security.Claims.ClaimTypes.Name)?.Value 
+                   ?? User.FindFirst("name")?.Value 
+                   ?? string.Empty;
+        
+        var nick = User.FindFirst("preferred_username")?.Value ?? string.Empty;
 
-        var player = _createPlayerHandler.Handle(command);
+        var command = new CreatePlayerCommand(name, email, nick, userIdClaim);
+
+        var player = await _createPlayerHandler.HandleAsync(command);
 
         return Ok(player);
     }
-    
-    //TODO: criar banco e testar os endpoints a cima 
-    
-    
 }

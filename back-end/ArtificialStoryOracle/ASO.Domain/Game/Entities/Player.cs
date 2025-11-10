@@ -1,4 +1,4 @@
-﻿using ASO.Domain.Game.Enums;
+﻿﻿﻿using ASO.Domain.Game.Enums;
 using ASO.Domain.Shared.Aggregates.Abstractions;
 using ASO.Domain.Shared.Entities;
 using ASO.Domain.Shared.ValueObjects;
@@ -17,8 +17,9 @@ public class Player : Entity, IAggragateRoot
         TypePlayer = TypePlayer.Player;
     }
 
-    private Player(string firstName, string lastName, string address, string nickName)
+    private Player(Guid keycloakUserId, string firstName, string lastName, string address, string nickName)
     {
+        KeycloakUserId = keycloakUserId;
         Name = Name.Create(firstName, lastName);
         Email = Email.Create(address);
         NickName = Nickname.Create(nickName);
@@ -27,14 +28,18 @@ public class Player : Entity, IAggragateRoot
     #endregion
 
     #region Factory Methods
-    public static Player Create(string firstName, string lastName, string address, string nick)
-        => new(firstName, lastName, address, nick);
+    public static Player Create(Guid keycloakUserId, string firstName, string lastName, string address, string nick)
+        => new(keycloakUserId, firstName, lastName, address, nick);
     #endregion
 
     #region Proporties
+    public Guid KeycloakUserId { get; }
     public Name Name { get; }
     public Email Email { get; }
     public Nickname NickName { get; }
     public TypePlayer TypePlayer { get; }
+    
+    public ICollection<Friendship> SentFriendRequests { get; } = new List<Friendship>();
+    public ICollection<Friendship> ReceivedFriendRequests { get; } = new List<Friendship>();
     #endregion
 }

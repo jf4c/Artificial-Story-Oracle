@@ -1,4 +1,4 @@
-﻿using ASO.Domain.Shared.ValueObjects.Exceptions.Nickname;
+﻿﻿using ASO.Domain.Shared.ValueObjects.Exceptions.Nickname;
 
 namespace ASO.Domain.Shared.ValueObjects;
 
@@ -7,7 +7,7 @@ public sealed record Nickname : ValueObject
     #region Constants
     
     public const int MaxLength = 20;
-    public const int MinLength = 20;
+    public const int MinLength = 3;
     
     #endregion
     

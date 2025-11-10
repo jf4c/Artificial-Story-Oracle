@@ -140,6 +140,47 @@ namespace ASO.Infra.Migrations
                     b.ToTable("classes", (string)null);
                 });
 
+            modelBuilder.Entity("ASO.Domain.Game.Entities.Friendship", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<DateTime?>("AcceptedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("accepted_at");
+
+                    b.Property<Guid>("AddresseeId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("addressee_id");
+
+                    b.Property<DateTime?>("RejectedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("rejected_at");
+
+                    b.Property<Guid>("RequesterId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("requester_id");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer")
+                        .HasColumnName("status");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AddresseeId");
+
+                    b.HasIndex("RequesterId");
+
+                    b.HasIndex("Status");
+
+                    b.HasIndex("RequesterId", "AddresseeId")
+                        .IsUnique();
+
+                    b.ToTable("friendships", (string)null);
+                });
+
             modelBuilder.Entity("ASO.Domain.Game.Entities.Image", b =>
                 {
                     b.Property<Guid>("Id")
@@ -164,6 +205,29 @@ namespace ASO.Infra.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("images", (string)null);
+                });
+
+            modelBuilder.Entity("ASO.Domain.Game.Entities.Player", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<Guid>("KeycloakUserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("keycloak_user_id");
+
+                    b.Property<int>("TypePlayer")
+                        .HasColumnType("integer")
+                        .HasColumnName("type_player");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("KeycloakUserId")
+                        .IsUnique();
+
+                    b.ToTable("players", (string)null);
                 });
 
             modelBuilder.Entity("ASO.Domain.Game.Entities.Skill", b =>
@@ -194,6 +258,25 @@ namespace ASO.Infra.Migrations
                         .HasName("id");
 
                     b.ToTable("Skills", (string)null);
+                });
+
+            modelBuilder.Entity("ASO.Domain.Identity.Entities.PlayerUser", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<Guid>("KeycloakUserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("keycloak_user_id");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("KeycloakUserId")
+                        .IsUnique();
+
+                    b.ToTable("player_users", (string)null);
                 });
 
             modelBuilder.Entity("characters_classes", b =>
@@ -413,6 +496,49 @@ namespace ASO.Infra.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("ASO.Domain.Game.Entities.Friendship", b =>
+                {
+                    b.HasOne("ASO.Domain.Game.Entities.Player", "Addressee")
+                        .WithMany("ReceivedFriendRequests")
+                        .HasForeignKey("AddresseeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ASO.Domain.Game.Entities.Player", "Requester")
+                        .WithMany("SentFriendRequests")
+                        .HasForeignKey("RequesterId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.OwnsOne("ASO.Domain.Shared.ValueObjects.Tracker", "Tracker", b1 =>
+                        {
+                            b1.Property<Guid>("FriendshipId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<DateTime>("CreatedAtUtc")
+                                .HasColumnType("timestamp with time zone")
+                                .HasColumnName("created_at");
+
+                            b1.Property<DateTime>("UpdatedAtUtc")
+                                .HasColumnType("timestamp with time zone")
+                                .HasColumnName("updated_at");
+
+                            b1.HasKey("FriendshipId");
+
+                            b1.ToTable("friendships");
+
+                            b1.WithOwner()
+                                .HasForeignKey("FriendshipId");
+                        });
+
+                    b.Navigation("Addressee");
+
+                    b.Navigation("Requester");
+
+                    b.Navigation("Tracker")
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("ASO.Domain.Game.Entities.Image", b =>
                 {
                     b.OwnsOne("ASO.Domain.Shared.ValueObjects.Tracker", "Tracker", b1 =>
@@ -440,6 +566,107 @@ namespace ASO.Infra.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("ASO.Domain.Game.Entities.Player", b =>
+                {
+                    b.OwnsOne("ASO.Domain.Shared.ValueObjects.Email", "Email", b1 =>
+                        {
+                            b1.Property<Guid>("PlayerId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<string>("Address")
+                                .IsRequired()
+                                .HasMaxLength(60)
+                                .HasColumnType("character varying(60)")
+                                .HasColumnName("email");
+
+                            b1.HasKey("PlayerId");
+
+                            b1.HasIndex("Address");
+
+                            b1.ToTable("players");
+
+                            b1.WithOwner()
+                                .HasForeignKey("PlayerId");
+                        });
+
+                    b.OwnsOne("ASO.Domain.Shared.ValueObjects.Name", "Name", b1 =>
+                        {
+                            b1.Property<Guid>("PlayerId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<string>("FirstName")
+                                .IsRequired()
+                                .HasMaxLength(60)
+                                .HasColumnType("character varying(60)")
+                                .HasColumnName("first_name");
+
+                            b1.Property<string>("LastName")
+                                .IsRequired()
+                                .HasMaxLength(60)
+                                .HasColumnType("character varying(60)")
+                                .HasColumnName("last_name");
+
+                            b1.HasKey("PlayerId");
+
+                            b1.ToTable("players");
+
+                            b1.WithOwner()
+                                .HasForeignKey("PlayerId");
+                        });
+
+                    b.OwnsOne("ASO.Domain.Shared.ValueObjects.Nickname", "NickName", b1 =>
+                        {
+                            b1.Property<Guid>("PlayerId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<string>("Nick")
+                                .IsRequired()
+                                .HasMaxLength(20)
+                                .HasColumnType("character varying(20)")
+                                .HasColumnName("nickname");
+
+                            b1.HasKey("PlayerId");
+
+                            b1.ToTable("players");
+
+                            b1.WithOwner()
+                                .HasForeignKey("PlayerId");
+                        });
+
+                    b.OwnsOne("ASO.Domain.Shared.ValueObjects.Tracker", "Tracker", b1 =>
+                        {
+                            b1.Property<Guid>("PlayerId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<DateTime>("CreatedAtUtc")
+                                .HasColumnType("timestamp with time zone")
+                                .HasColumnName("created_at");
+
+                            b1.Property<DateTime>("UpdatedAtUtc")
+                                .HasColumnType("timestamp with time zone")
+                                .HasColumnName("updated_at");
+
+                            b1.HasKey("PlayerId");
+
+                            b1.ToTable("players");
+
+                            b1.WithOwner()
+                                .HasForeignKey("PlayerId");
+                        });
+
+                    b.Navigation("Email")
+                        .IsRequired();
+
+                    b.Navigation("Name")
+                        .IsRequired();
+
+                    b.Navigation("NickName")
+                        .IsRequired();
+
+                    b.Navigation("Tracker")
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("ASO.Domain.Game.Entities.Skill", b =>
                 {
                     b.OwnsOne("ASO.Domain.Shared.ValueObjects.Tracker", "Tracker", b1 =>
@@ -462,6 +689,107 @@ namespace ASO.Infra.Migrations
                             b1.WithOwner()
                                 .HasForeignKey("SkillId");
                         });
+
+                    b.Navigation("Tracker")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ASO.Domain.Identity.Entities.PlayerUser", b =>
+                {
+                    b.OwnsOne("ASO.Domain.Shared.ValueObjects.Email", "Email", b1 =>
+                        {
+                            b1.Property<Guid>("PlayerUserId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<string>("Address")
+                                .IsRequired()
+                                .HasMaxLength(60)
+                                .HasColumnType("character varying(60)")
+                                .HasColumnName("email");
+
+                            b1.HasKey("PlayerUserId");
+
+                            b1.HasIndex("Address");
+
+                            b1.ToTable("player_users");
+
+                            b1.WithOwner()
+                                .HasForeignKey("PlayerUserId");
+                        });
+
+                    b.OwnsOne("ASO.Domain.Shared.ValueObjects.Name", "Name", b1 =>
+                        {
+                            b1.Property<Guid>("PlayerUserId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<string>("FirstName")
+                                .IsRequired()
+                                .HasMaxLength(60)
+                                .HasColumnType("character varying(60)")
+                                .HasColumnName("first_name");
+
+                            b1.Property<string>("LastName")
+                                .IsRequired()
+                                .HasMaxLength(60)
+                                .HasColumnType("character varying(60)")
+                                .HasColumnName("last_name");
+
+                            b1.HasKey("PlayerUserId");
+
+                            b1.ToTable("player_users");
+
+                            b1.WithOwner()
+                                .HasForeignKey("PlayerUserId");
+                        });
+
+                    b.OwnsOne("ASO.Domain.Shared.ValueObjects.Nickname", "NickName", b1 =>
+                        {
+                            b1.Property<Guid>("PlayerUserId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<string>("Nick")
+                                .IsRequired()
+                                .HasMaxLength(20)
+                                .HasColumnType("character varying(20)")
+                                .HasColumnName("nickname");
+
+                            b1.HasKey("PlayerUserId");
+
+                            b1.ToTable("player_users");
+
+                            b1.WithOwner()
+                                .HasForeignKey("PlayerUserId");
+                        });
+
+                    b.OwnsOne("ASO.Domain.Shared.ValueObjects.Tracker", "Tracker", b1 =>
+                        {
+                            b1.Property<Guid>("PlayerUserId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<DateTime>("CreatedAtUtc")
+                                .HasColumnType("timestamp with time zone")
+                                .HasColumnName("created_at");
+
+                            b1.Property<DateTime>("UpdatedAtUtc")
+                                .HasColumnType("timestamp with time zone")
+                                .HasColumnName("updated_at");
+
+                            b1.HasKey("PlayerUserId");
+
+                            b1.ToTable("player_users");
+
+                            b1.WithOwner()
+                                .HasForeignKey("PlayerUserId");
+                        });
+
+                    b.Navigation("Email")
+                        .IsRequired();
+
+                    b.Navigation("Name")
+                        .IsRequired();
+
+                    b.Navigation("NickName")
+                        .IsRequired();
 
                     b.Navigation("Tracker")
                         .IsRequired();
@@ -495,6 +823,13 @@ namespace ASO.Infra.Migrations
                         .HasForeignKey("expertise_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("ASO.Domain.Game.Entities.Player", b =>
+                {
+                    b.Navigation("ReceivedFriendRequests");
+
+                    b.Navigation("SentFriendRequests");
                 });
 #pragma warning restore 612, 618
         }
