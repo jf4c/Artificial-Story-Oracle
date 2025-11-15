@@ -10,6 +10,7 @@ public static class CreateCharacterInputMapper
         return new CreateCharacterCommand
         {
             Name = input.Name,
+            PlayerId = input.PlayerId,
             AncestryId = input.AncestryId,
             SkillsIds = input.SkillsIds,
             ClasseId = input.ClassId,

@@ -207,6 +207,10 @@ namespace ASO.Infra.Migrations
                         .HasColumnType("text")
                         .HasColumnName("name");
 
+                    b.Property<Guid>("PlayerId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("player_id");
+
                     b.Property<int>("TypeCharacter")
                         .HasColumnType("integer")
                         .HasColumnName("type_character");

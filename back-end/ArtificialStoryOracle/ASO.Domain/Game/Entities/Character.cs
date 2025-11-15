@@ -24,10 +24,11 @@ public class Character : Entity, IAggragateRoot
         AncestryId = Guid.Empty;
     }
 
-    private Character(string name, Ancestry ancestry, List<Skill> skills, Class classe,
+    private Character(string name, Guid playerId, Ancestry ancestry, List<Skill> skills, Class classe,
         AttributeModifiers modifiers, string? backstory, Image image)
     {
         Name = name;
+        PlayerId = playerId;
         // Ancestry = ancestry;
         Classes = [classe];
         Skills = skills;
@@ -54,13 +55,17 @@ public class Character : Entity, IAggragateRoot
 
         if(dto.Image == null)
             throw new ArgumentException("Image cannot be null.", nameof(dto.Image));
+        
+        if (dto.PlayerId == Guid.Empty)
+            throw new ArgumentException("PlayerId cannot be empty.", nameof(dto.PlayerId));
             
         
-        return new Character(dto.Name, dto.Ancestry, dto.Skills, dto.Classes, dto.Modifiers,
+        return new Character(dto.Name, dto.PlayerId, dto.Ancestry, dto.Skills, dto.Classes, dto.Modifiers,
             dto.Backstory, dto.Image);
     }
 
     public string Name { get; }
+    public Guid PlayerId { get; }
     public TypeCharacter TypeCharacter { get; } = TypeCharacter.Player;
     public Ancestry Ancestry { get; }
     public Guid AncestryId { get; }

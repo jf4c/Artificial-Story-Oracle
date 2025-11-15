@@ -50,6 +50,7 @@ public static class CharacterMapper
         return new CreateCharacterDto
         {
             Name = command.Name,
+            PlayerId = command.PlayerId,
             Ancestry = ancestry,
             Skills = skills,
             Classes = classe,

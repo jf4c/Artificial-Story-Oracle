@@ -6,6 +6,7 @@ namespace ASO.Application.UseCases.Characters.Create;
 public sealed record CreateCharacterCommand : ICommand
 {
     public string Name { get; set; } = string.Empty;
+    public Guid PlayerId { get; set; }
     public Guid AncestryId { get; set; }
     public List<Guid> SkillsIds { get; set; } = new();
     public Guid ClasseId { get; set; } = Guid.Empty;

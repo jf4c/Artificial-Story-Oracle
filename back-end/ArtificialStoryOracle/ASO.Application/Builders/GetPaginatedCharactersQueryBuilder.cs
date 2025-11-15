@@ -32,4 +32,14 @@ public class GetPaginatedCharactersQueryBuilder :
         
         return this;
     }
+    
+    public GetPaginatedCharactersQueryBuilder FilterByPlayerId()
+    {
+        if (Filter.PlayerId.HasValue)
+        {
+            Query = Query.Where(c => c.PlayerId == Filter.PlayerId.Value);
+        }
+        
+        return this;
+    }
 }

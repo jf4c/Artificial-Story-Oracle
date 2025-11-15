@@ -8,6 +8,7 @@ namespace ASO.Api.Inputs;
 public sealed record CreateCharacterInput
 {
     public string Name { get; set; } = string.Empty;
+    public Guid PlayerId { get; set; }
     public Guid AncestryId { get; set; }
     public List<Guid> SkillsIds { get; set; } = new();
     public Guid ClassId { get; set; } = Guid.Empty;
@@ -34,6 +35,10 @@ public class CreateCharacterInputValidator : AbstractValidator<CreateCharacterIn
         RuleFor(x => x.Name)
             .NotEmpty()
             .WithMessage(ValidationMessages.CharacterNameRequired);
+
+        RuleFor(x => x.PlayerId)
+            .NotEmpty()
+            .WithMessage("Player ID is required.");
 
         RuleFor(x => x.AncestryId)
             .NotEmpty()

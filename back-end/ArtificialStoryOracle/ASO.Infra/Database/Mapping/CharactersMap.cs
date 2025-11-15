@@ -12,6 +12,7 @@ public class CharactersMap : IEntityTypeConfiguration<Character>
         builder.HasKey(c => c.Id);
         builder.Property(c => c.Id).HasColumnName("id");
         builder.Property(c => c.Name).HasColumnName("name").IsRequired();
+        builder.Property(c => c.PlayerId).HasColumnName("player_id").IsRequired();
         builder.Property(c => c.TypeCharacter).HasColumnName("type_character").IsRequired();
         builder.Property(c => c.Level).HasColumnName("level");
         builder.Property(c => c.Backstory).HasColumnName("backstory");

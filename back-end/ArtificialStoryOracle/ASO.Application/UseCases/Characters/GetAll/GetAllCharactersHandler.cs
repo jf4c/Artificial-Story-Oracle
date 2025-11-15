@@ -25,6 +25,7 @@ public sealed class GetAllCharactersHandler(ICharacterRepository characterReposi
         var query = GetPaginatedCharactersQueryBuilder
             .CreateBuilder(_characterRepository)
             .SetFilter(filter)
+            .FilterByPlayerId()
             .FilterByName()
             .SetOrderBy()
             .BuildQuery();

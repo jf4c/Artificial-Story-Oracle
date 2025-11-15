@@ -9,6 +9,7 @@ public static class GetAllCharacterQueryMapper
         return new GetAllCharactersFilter
         {
             Name = query.Name,
+            PlayerId = query.PlayerId,
             Page = query.Page,
             PageSize = query.PageSize
         };
