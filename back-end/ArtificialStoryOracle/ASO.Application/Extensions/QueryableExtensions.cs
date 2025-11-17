@@ -26,6 +26,7 @@ public static class QueryableExtensions
 
         result.Results = await query
             .AsNoTracking()
+            .AsSplitQuery()
             .Skip(skip)
             .Take(pageSize)
             .ToListAsync(ct);

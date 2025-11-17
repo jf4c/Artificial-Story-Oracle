@@ -24,4 +24,16 @@ public class CharacterRepository(AppDbContext context) : ICharacterRepository
             .Include(c => c.Ancestry)
             .Include(c => c.Classes);
     }
+
+    public async Task<List<Character>> GetByPlayerIdAsync(Guid playerId)
+    {
+        return await _context.Characters
+            .AsNoTracking()
+            .Include(c => c.Image)
+            .Include(c => c.Ancestry)
+            .Include(c => c.Classes)
+            .Where(c => c.PlayerId == playerId)
+            .OrderByDescending(c => c.Tracker.UpdatedAtUtc)
+            .ToListAsync();
+    }
 }

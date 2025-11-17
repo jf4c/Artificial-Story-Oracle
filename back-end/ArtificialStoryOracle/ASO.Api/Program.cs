@@ -14,6 +14,7 @@ using ASO.Application.UseCases.Campaigns.GetById;
 using ASO.Application.UseCases.Campaigns.GetMyCampaigns;
 using ASO.Application.UseCases.Campaigns.Pause;
 using ASO.Application.UseCases.Campaigns.Resume;
+using ASO.Application.UseCases.Campaigns.SetStory;
 using ASO.Application.UseCases.Campaigns.Start;
 using ASO.Application.UseCases.Campaigns.Update;
 using ASO.Application.UseCases.Characters.Create;
@@ -30,6 +31,7 @@ using ASO.Application.UseCases.Friendships.SearchPlayers;
 using ASO.Application.UseCases.Friendships.SendRequest;
 using ASO.Application.UseCases.Images.GetAll;
 using ASO.Application.UseCases.Oracle;
+using ASO.Application.UseCases.Oracle.GenerateCampaignStory;
 using ASO.Application.UseCases.Players.Create;
 using ASO.Application.UseCases.Players.GetByUserId;
 using ASO.Application.UseCases.Skills.GetAllSkills;
@@ -47,6 +49,7 @@ using ASO.Infra.QueriesServices;
 using ASO.Infra.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
 
@@ -173,10 +176,13 @@ builder.Services.AddScoped<StartCampaignHandler>();
 builder.Services.AddScoped<PauseCampaignHandler>();
 builder.Services.AddScoped<ResumeCampaignHandler>();
 builder.Services.AddScoped<CompleteCampaignHandler>();
+builder.Services.AddScoped<SetCampaignStoryHandler>();
 
 builder.Services.AddScoped<IGenerateCharacterBackstory, GenerateCharacterBackstory>();
 builder.Services.AddScoped<IGenerateCampaignBackstory, GenerateCampaignBackstory>();
 builder.Services.AddScoped<IGenerateCharactersNames, GenerateCharactersNames>();
+builder.Services.AddScoped<GenerateCampaignStoryHandler>();
+builder.Services.AddScoped<GenerateCampaignStoryFromCharactersHandler>();
 
 
 builder.Services.AddHttpClient<IGeminiApiService, GeminiApiService>((sp, client) =>
@@ -225,6 +231,15 @@ if (app.Environment.IsDevelopment())
     });
 }
 app.UseCors("AllowAngular");
+
+// Configurar arquivos estáticos para servir imagens
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+        Path.Combine(Directory.GetCurrentDirectory(), "uploads")),
+    RequestPath = "/uploads"
+});
+
 app.UseAuthentication();
 app.UseAuthorization();
 

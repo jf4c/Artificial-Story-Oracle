@@ -13,18 +13,19 @@ public sealed class Campaign : Entity, IAggragateRoot
         Participants = new List<CampaignParticipant>();
     }
 
-    private Campaign(Guid creatorId, string name, string? description, int maxPlayers, bool isPublic)
+    private Campaign(Guid creatorId, string name, string? description, int maxPlayers, bool isPublic, string? storyIntroduction = null)
     {
         CreatorId = creatorId;
         Name = name;
         Description = description;
         MaxPlayers = maxPlayers;
         IsPublic = isPublic;
+        StoryIntroduction = storyIntroduction;
         Status = CampaignStatus.Planning;
         Participants = new List<CampaignParticipant>();
     }
 
-    public static Campaign Create(Guid creatorId, string name, string? description, int maxPlayers, bool isPublic)
+    public static Campaign Create(Guid creatorId, string name, string? description, int maxPlayers, bool isPublic, string? storyIntroduction = null)
     {
         if (string.IsNullOrWhiteSpace(name))
             throw new ArgumentException("Nome da campanha é obrigatório.", nameof(name));
@@ -38,7 +39,10 @@ public sealed class Campaign : Entity, IAggragateRoot
         if (maxPlayers < 2 || maxPlayers > 12)
             throw new ArgumentException("Máximo de jogadores deve estar entre 2 e 12.", nameof(maxPlayers));
 
-        return new Campaign(creatorId, name, description, maxPlayers, isPublic);
+        if (storyIntroduction?.Length > 5000)
+            throw new ArgumentException("História introdutória não pode ter mais de 5000 caracteres.", nameof(storyIntroduction));
+
+        return new Campaign(creatorId, name, description, maxPlayers, isPublic, storyIntroduction);
     }
 
     public void Update(string name, string? description, int maxPlayers, CampaignStatus status)
@@ -104,6 +108,19 @@ public sealed class Campaign : Entity, IAggragateRoot
         GameMasterId = playerId;
     }
 
+    public void SetStoryIntroduction(string? storyIntroduction)
+    {
+        if (storyIntroduction?.Length > 5000)
+            throw new ArgumentException("História introdutória não pode ter mais de 5000 caracteres.", nameof(storyIntroduction));
+
+        StoryIntroduction = storyIntroduction;
+    }
+
+    public void SetBannerImage(string? bannerImageUrl)
+    {
+        BannerImage = bannerImageUrl;
+    }
+
     public Guid CreatorId { get; private set; }
     public Guid? GameMasterId { get; private set; }
     public string Name { get; private set; }
@@ -113,6 +130,8 @@ public sealed class Campaign : Entity, IAggragateRoot
     public DateTime? EndedAt { get; private set; }
     public int MaxPlayers { get; private set; }
     public bool IsPublic { get; private set; }
+    public string? StoryIntroduction { get; private set; }
+    public string? BannerImage { get; private set; }
 
     public Player Creator { get; private set; }
     public Player? GameMaster { get; private set; }

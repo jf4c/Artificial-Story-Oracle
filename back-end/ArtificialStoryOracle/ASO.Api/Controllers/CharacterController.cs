@@ -15,12 +15,14 @@ namespace ASO.Api.Controllers;
 public class CharacterController(
     ICreateCharacterHandler createCharacterHandler,
     IGetAllCharactersHandler getAllCharactersHandler,
-    IPlayerRepository playerRepository
+    IPlayerRepository playerRepository,
+    ICharacterRepository characterRepository
     ) : ControllerBase
 {
     private readonly ICreateCharacterHandler _createCharacterHandler = createCharacterHandler;
     private readonly IGetAllCharactersHandler _getAllCharactersHandler = getAllCharactersHandler;
     private readonly IPlayerRepository _playerRepository = playerRepository;
+    private readonly ICharacterRepository _characterRepository = characterRepository;
 
     [HttpPost]
     [Authorize]
@@ -74,6 +76,25 @@ public class CharacterController(
         }
         
         var response = await _getAllCharactersHandler.Handle(filter);
+        return Ok(response);
+    }
+
+    [HttpGet("player/{playerId}")]
+    public async Task<IActionResult> GetCharactersByPlayerId(Guid playerId)
+    {
+        var characters = await _characterRepository.GetByPlayerIdAsync(playerId);
+        
+        // Mapear para o response simplificado
+        var response = characters.Select(c => new
+        {
+            c.Id,
+            c.Name,
+            Image = c.Image?.Url,
+            Ancestry = c.Ancestry.Name,
+            Class = c.Classes?.FirstOrDefault()?.Name ?? "Sem classe",
+            c.Level
+        }).ToList();
+        
         return Ok(response);
     }
 }

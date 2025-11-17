@@ -7,4 +7,5 @@ public interface ICharacterRepository : IRepository<Character>
 {
     Task<Character> Create(Character character);
     IQueryable<Character> GetAll();
+    Task<List<Character>> GetByPlayerIdAsync(Guid playerId);
 }

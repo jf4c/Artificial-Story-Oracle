@@ -20,26 +20,28 @@ public class GetPaginatedCharactersQueryBuilder :
     {
         _instance.Filter = filter;
 
-        return this;
+        return _instance;
     }
 
     public GetPaginatedCharactersQueryBuilder FilterByName()
     {
-        if (Filter.Name.Length > 0)
+        if (_instance.Filter?.Name?.Length > 0)
         {
-            Query = Query.Where(c => c.Name.Contains(Filter.Name));
+            _instance.Query = _instance.Query.Where(c => c.Name.Contains(_instance.Filter.Name));
         }
         
-        return this;
+        return _instance;
     }
     
     public GetPaginatedCharactersQueryBuilder FilterByPlayerId()
     {
-        if (Filter.PlayerId.HasValue)
+        if (_instance.Query == null || _instance.Filter == null)
+            throw new InvalidOperationException("Query ou Filter não inicializados no builder.");
+        if (_instance.Filter.PlayerId.HasValue)
         {
-            Query = Query.Where(c => c.PlayerId == Filter.PlayerId.Value);
+            _instance.Query = _instance.Query.Where(c => c.PlayerId == _instance.Filter.PlayerId.Value);
         }
         
-        return this;
+        return _instance;
     }
 }

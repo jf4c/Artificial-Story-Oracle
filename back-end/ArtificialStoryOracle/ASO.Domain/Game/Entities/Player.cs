@@ -30,6 +30,11 @@ public class Player : Entity, IAggragateRoot
     #region Factory Methods
     public static Player Create(Guid keycloakUserId, string firstName, string lastName, string address, string nick)
         => new(keycloakUserId, firstName, lastName, address, nick);
+    
+    public void SetAvatar(string? avatarUrl)
+    {
+        Avatar = avatarUrl;
+    }
     #endregion
 
     #region Proporties
@@ -38,6 +43,7 @@ public class Player : Entity, IAggragateRoot
     public Email Email { get; }
     public Nickname NickName { get; }
     public TypePlayer TypePlayer { get; }
+    public string? Avatar { get; private set; }
     
     public ICollection<Friendship> SentFriendRequests { get; } = new List<Friendship>();
     public ICollection<Friendship> ReceivedFriendRequests { get; } = new List<Friendship>();

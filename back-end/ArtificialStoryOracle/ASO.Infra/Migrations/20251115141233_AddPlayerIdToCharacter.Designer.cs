@@ -3,6 +3,7 @@ using System;
 using ASO.Infra.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ASO.Infra.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251115141233_AddPlayerIdToCharacter")]
+    partial class AddPlayerIdToCharacter
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -86,9 +89,6 @@ namespace ASO.Infra.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
-                    b.Property<string>("BannerImage")
-                        .HasColumnType("text");
-
                     b.Property<Guid>("CreatorId")
                         .HasColumnType("uuid")
                         .HasColumnName("creator_id");
@@ -127,9 +127,6 @@ namespace ASO.Infra.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("integer")
                         .HasColumnName("status");
-
-                    b.Property<string>("StoryIntroduction")
-                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -325,9 +322,6 @@ namespace ASO.Infra.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("id");
-
-                    b.Property<string>("Avatar")
-                        .HasColumnType("text");
 
                     b.Property<Guid>("KeycloakUserId")
                         .HasColumnType("uuid")

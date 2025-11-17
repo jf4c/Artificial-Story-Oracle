@@ -1,6 +1,7 @@
 ﻿using ASO.Application.UseCases.Campaigns.Create;
 using ASO.Application.UseCases.Campaigns.GetById;
 using ASO.Application.UseCases.Campaigns.GetMyCampaigns;
+using ASO.Domain.Game.Abstractions.Repositories;
 using ASO.Domain.Game.Entities;
 using ASO.Domain.Game.Enums;
 
@@ -25,36 +26,38 @@ public static class CampaignMapper
         };
     }
 
-    public static GetCampaignByIdResponse ToGetCampaignByIdResponse(this Campaign campaign, Guid currentPlayerId)
+    public static GetCampaignByIdResponse ToGetCampaignByIdResponse(this Campaign campaign, Guid currentPlayerId, List<Character> allCharacters)
     {
+        var userRole = campaign.CreatorId == currentPlayerId ? "creator" :
+                       campaign.GameMasterId == currentPlayerId ? "gameMaster" : "player";
+
         return new GetCampaignByIdResponse
         {
             Id = campaign.Id,
+            CreatorId = campaign.CreatorId,
             Name = campaign.Name,
             Description = campaign.Description,
-            Creator = new PlayerBasicInfo
-            {
-                Id = campaign.Creator.Id,
-                NickName = campaign.Creator.NickName.Nick,
-                FirstName = campaign.Creator.Name.FirstName,
-                LastName = campaign.Creator.Name.LastName
-            },
-            GameMaster = campaign.GameMaster != null ? new PlayerBasicInfo
-            {
-                Id = campaign.GameMaster.Id,
-                NickName = campaign.GameMaster.NickName.Nick,
-                FirstName = campaign.GameMaster.Name.FirstName,
-                LastName = campaign.GameMaster.Name.LastName
-            } : null,
+            Image = null, // TODO: Adicionar campo Image na entidade Campaign
+            UserRole = userRole,
             Status = campaign.Status,
             CreatedAt = campaign.Tracker.CreatedAtUtc,
-            StartedAt = campaign.StartedAt,
-            EndedAt = campaign.EndedAt,
             MaxPlayers = campaign.MaxPlayers,
             IsPublic = campaign.IsPublic,
-            Participants = campaign.Participants.Where(p => p.IsActive).Select(p => p.ToParticipantWithDetails()).ToList(),
+            StoryIntroduction = campaign.StoryIntroduction,
+            Settings = new CampaignSettings
+            {
+                System = "D&D 5e", // TODO: Adicionar campo System na entidade Campaign
+                AllowCharacterCreation = true // TODO: Adicionar campo AllowCharacterCreation
+            },
+            Participants = campaign.Participants
+                .Where(p => p.IsActive)
+                .Select(p => p.ToParticipantWithDetails(allCharacters, campaign.Id))
+                .ToList(),
             CanEdit = campaign.CreatorId == currentPlayerId || campaign.GameMasterId == currentPlayerId,
-            CanManageParticipants = campaign.CreatorId == currentPlayerId || campaign.GameMasterId == currentPlayerId
+            CanManageParticipants = campaign.CreatorId == currentPlayerId || campaign.GameMasterId == currentPlayerId,
+            Sessions = new List<SessionInfo>(), // Mockado - implementar quando houver feature de sessões
+            Statistics = null, // Mockado - implementar quando houver feature de estatísticas
+            World = null // Mockado - implementar quando houver feature de mundo
         };
     }
 
@@ -77,28 +80,34 @@ public static class CampaignMapper
         };
     }
 
-    public static ParticipantWithDetails ToParticipantWithDetails(this CampaignParticipant participant)
+    public static ParticipantWithDetails ToParticipantWithDetails(this CampaignParticipant participant, List<Character> allCharacters, Guid campaignId)
     {
+        // Buscar o character vinculado ao participante
+        var character = allCharacters
+            .Where(c => c.Id == participant.CharacterId)
+            .Select(c => new CharacterBasicInfo
+            {
+                Id = c.Id,
+                Name = c.Name,
+                Class = c.Classes?.FirstOrDefault()?.Name ?? "Sem classe",
+                Race = c.Ancestry.Name,
+                Ancestry = c.Ancestry.Name,
+                Level = c.Level,
+                Description = c.Backstory,
+                Image = c.Image?.Url,
+                IsActive = true
+            })
+            .FirstOrDefault();
+
         return new ParticipantWithDetails
         {
             Id = participant.Id,
-            Player = new PlayerBasicInfo
-            {
-                Id = participant.Player.Id,
-                NickName = participant.Player.NickName.Nick,
-                FirstName = participant.Player.Name.FirstName,
-                LastName = participant.Player.Name.LastName
-            },
-            Character = participant.Character != null ? new CharacterBasicInfo
-            {
-                Id = participant.Character.Id,
-                Name = participant.Character.Name,
-                Race = participant.Character.Ancestry.Name,
-                Class = participant.Character.Classes?.FirstOrDefault()?.Name ?? "Sem classe",
-                Level = participant.Character.Level
-            } : null,
+            UserId = participant.Player.Id,
+            UserName = participant.Player.NickName.Nick,
+            UserAvatar = null, // TODO: Adicionar avatar no Player
             Role = participant.Role,
-            JoinedAt = participant.JoinedAt
+            JoinedAt = participant.JoinedAt,
+            Character = character
         };
     }
 }

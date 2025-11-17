@@ -27,6 +27,13 @@ public sealed class CampaignRepository(AppDbContext context) : ICampaignReposito
                 .ThenInclude(p => p.Player)
             .Include(c => c.Participants.Where(p => p.IsActive))
                 .ThenInclude(p => p.Character)
+                    .ThenInclude(ch => ch!.Ancestry)
+            .Include(c => c.Participants.Where(p => p.IsActive))
+                .ThenInclude(p => p.Character)
+                    .ThenInclude(ch => ch!.Classes)
+            .Include(c => c.Participants.Where(p => p.IsActive))
+                .ThenInclude(p => p.Character)
+                    .ThenInclude(ch => ch!.Image)
             .FirstOrDefaultAsync(c => c.Id == id);
     }
 

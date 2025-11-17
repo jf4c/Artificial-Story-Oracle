@@ -6,6 +6,7 @@ using ASO.Application.UseCases.Campaigns.GetById;
 using ASO.Application.UseCases.Campaigns.GetMyCampaigns;
 using ASO.Application.UseCases.Campaigns.Pause;
 using ASO.Application.UseCases.Campaigns.Resume;
+using ASO.Application.UseCases.Campaigns.SetStory;
 using ASO.Application.UseCases.Campaigns.Start;
 using ASO.Application.UseCases.Campaigns.Update;
 using ASO.Domain.Game.Abstractions.Repositories;
@@ -28,6 +29,7 @@ public sealed class CampaignController(
     PauseCampaignHandler pauseHandler,
     ResumeCampaignHandler resumeHandler,
     CompleteCampaignHandler completeHandler,
+    SetCampaignStoryHandler setStoryHandler,
     IPlayerRepository playerRepository) : ControllerBase
 {
     private readonly CreateCampaignHandler _createHandler = createHandler;
@@ -39,6 +41,7 @@ public sealed class CampaignController(
     private readonly PauseCampaignHandler _pauseHandler = pauseHandler;
     private readonly ResumeCampaignHandler _resumeHandler = resumeHandler;
     private readonly CompleteCampaignHandler _completeHandler = completeHandler;
+    private readonly SetCampaignStoryHandler _setStoryHandler = setStoryHandler;
     private readonly IPlayerRepository _playerRepository = playerRepository;
 
     private async Task<Guid> GetCurrentPlayerIdAsync()
@@ -60,7 +63,10 @@ public sealed class CampaignController(
     public async Task<IActionResult> CreateCampaign([FromBody] CreateCampaignInput input)
     {
         var playerId = await GetCurrentPlayerIdAsync();
-        var command = new CreateCampaignCommand(playerId, input.Name, input.Description, input.MaxPlayers, input.IsPublic);
+        var participants = input.Participants
+            .Select(p => new CreateCampaignParticipantDto { PlayerId = p.PlayerId, CharacterId = p.CharacterId })
+            .ToList();
+        var command = new CreateCampaignCommand(playerId, input.Name, input.Description, input.MaxPlayers, input.IsPublic, input.StoryIntroduction, participants);
         var response = await _createHandler.HandleAsync(command);
         return CreatedAtAction(nameof(GetCampaignById), new { campaignId = response.Id }, response);
     }
@@ -134,6 +140,15 @@ public sealed class CampaignController(
         var playerId = await GetCurrentPlayerIdAsync();
         var command = new CompleteCampaignCommand(playerId, campaignId);
         await _completeHandler.HandleAsync(command);
+        return NoContent();
+    }
+
+    [HttpPost("{campaignId}/story")]
+    public async Task<IActionResult> SetCampaignStory(Guid campaignId, [FromBody] SetCampaignStoryInput input)
+    {
+        var playerId = await GetCurrentPlayerIdAsync();
+        var command = new SetCampaignStoryCommand(campaignId, playerId, input.StoryIntroduction);
+        await _setStoryHandler.HandleAsync(command);
         return NoContent();
     }
 }
